@@ -1,6 +1,7 @@
 #ifndef SAMPLE_H
 #define SAMPLE_H
 
+#include "lightbeam.h"
 
 class Sample
 {
