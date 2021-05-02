@@ -29,7 +29,7 @@ Window {
             clearColor: "silver"
             backgroundMode: SceneEnvironment.Color
             antialiasingMode: SceneEnvironment.MSAA
-            antialiasingQuality: High
+            antialiasingQuality: SceneEnvironment.High
         }
 
         PerspectiveCamera {
