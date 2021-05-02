@@ -1,6 +1,6 @@
-#include "specimen.h"
+#include "sample.h"
 
-Specimen::Specimen()
+Sample::Sample()
 {
 
 }

@@ -1,11 +1,11 @@
-#ifndef SPECIMEN_H
-#define SPECIMEN_H
+#ifndef SAMPLE_H
+#define SAMPLE_H
 
 
-class Specimen
+class Sample
 {
 public:
-    Specimen();
+    Sample();
 };
 
-#endif // SPECIMEN_H
+#endif // Sample_H
