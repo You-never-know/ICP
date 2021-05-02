@@ -45,103 +45,106 @@ Window {
         }
 
         Node {
-            id: base_platform
+            id: microscopy
 
-
-            // Platform
             Node {
-                id: platform
-                x: 0
-                z: 0
-                y: -150
+                id: base_platform
 
-                Model {
-                    source: "#Cube"
-                    scale.z: 3
-                    scale.x: 3
-                    scale.y: 0.1
-                    eulerRotation.y: 30
-                    materials: PrincipledMaterial {
-                        baseColor: "grey"
-                        metalness: 0.0
-                        roughness: 0.0
+
+                // Platform
+                Node {
+                    id: platform
+                    x: 0
+                    z: 0
+                    y: -150
+
+                    Model {
+                        source: "#Cube"
+                        scale.z: 3
+                        scale.x: 3
+                        scale.y: 0.1
+                        eulerRotation.y: 30
+                        materials: PrincipledMaterial {
+                            baseColor: "grey"
+                            metalness: 0.0
+                            roughness: 0.0
+                        }
                     }
                 }
+
+
+                // Detector
+                Node {
+                    id: detector
+                    x: 0
+                    z: 0
+                    y: -145
+
+                    Model {
+                        source: "#Cube"
+                        scale.z: 0.5
+                        scale.x: 0.5
+                        scale.y: 0.05
+                        eulerRotation.y: 30
+                        materials: PrincipledMaterial {
+                            baseColor: "white"
+                            metalness: 0.0
+                            roughness: 0.0
+                        }
+                    }
+                }
+
             }
 
 
-            // Detector
+            // Source
             Node {
-                id: detector
-                x: 0
-                z: 0
-                y: -145
+                id: source
 
-                Model {
-                    source: "#Cube"
-                    scale.z: 0.5
-                    scale.x: 0.5
-                    scale.y: 0.05
-                    eulerRotation.y: 30
-                    materials: PrincipledMaterial {
-                        baseColor: "white"
-                        metalness: 0.0
-                        roughness: 0.0
+                // Source top
+                Node {
+                    x: 0
+                    z: 0
+                    y: 175
+
+                    Model {
+                        source: "#Cube"
+                        scale.z: 0.5
+                        scale.x: 0.5
+                        scale.y: 0.1
+                        eulerRotation.y: 30
+                        materials: PrincipledMaterial {
+                            baseColor: "grey"
+                            metalness: 0.0
+                            roughness: 0.0
+                        }
                     }
                 }
+
+
+                // Source bottom
+                Node {
+                    x: 0
+                    z: 0
+                    y: 150
+
+                    Model {
+                        source: "#Cone"
+                        scale.z: 0.5
+                        scale.x: 0.5
+                        scale.y: 0.3
+                        eulerRotation.y: 30
+                        materials: PrincipledMaterial {
+                            baseColor: "grey"
+                            metalness: 0.0
+                            roughness: 0.0
+                        }
+                    }
+                }
+
             }
 
         }
-
-
-        // Source
-        Node {
-            id: source
-
-            // Source top
-            Node {
-                x: 0
-                z: 0
-                y: 175
-
-                Model {
-                    source: "#Cube"
-                    scale.z: 0.5
-                    scale.x: 0.5
-                    scale.y: 0.1
-                    eulerRotation.y: 30
-                    materials: PrincipledMaterial {
-                        baseColor: "grey"
-                        metalness: 0.0
-                        roughness: 0.0
-                    }
-                }
-            }
-
-
-            // Source bottom
-            Node {
-                x: 0
-                z: 0
-                y: 150
-
-                Model {
-                    source: "#Cone"
-                    scale.z: 0.5
-                    scale.x: 0.5
-                    scale.y: 0.3
-                    eulerRotation.y: 30
-                    materials: PrincipledMaterial {
-                        baseColor: "grey"
-                        metalness: 0.0
-                        roughness: 0.0
-                    }
-                }
-            }
-
-        }
-
-
         // Display
         Node {
             id: display
@@ -193,12 +196,13 @@ Window {
                     }
                 }
            }
+
         }
     }
 
     // move the camera freely
     WasdController {
-        controlledObject: main_camera
+        controlledObject: microscopy
     }
 
 }
