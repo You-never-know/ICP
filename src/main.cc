@@ -1,6 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-
+#include <QQmlContext>
+#include "controller.h"
 
 
 int main(int argc, char *argv[])
@@ -10,9 +11,12 @@ int main(int argc, char *argv[])
 #endif
 
     QGuiApplication app(argc, argv);
+    QScopedPointer<Controller> controller(new Controller);
+
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));
+    engine.rootContext()->setContextProperty("controller", controller.data());
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
         if (!obj && url == objUrl)

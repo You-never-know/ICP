@@ -6,17 +6,17 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.11
 
 Window {
-
+    
     width: 1250
     height: 800
     visible: true
     color: "#6f6a6a"
     title: qsTr("Microscopy")
-
+    
     function create_lense(y, id) {
-
+        
     }
-
+    
     View3D {
         anchors.fill: parent;
         anchors.rightMargin: 329
@@ -29,33 +29,33 @@ Window {
             antialiasingMode: SceneEnvironment.MSAA
             antialiasingQuality: SceneEnvironment.High
         }
-
+        
         PerspectiveCamera {
             id: main_camera
             z: 500
             x: -10
             y: 10
         }
-
-
+        
+        
         DirectionalLight {
             eulerRotation.x: -45
         }
-
+        
         Node {
             id: microscopy
-
+            
             Node {
                 id: base_platform
-
-
+                
+                
                 // Platform
                 Node {
                     id: platform
                     x: 0
                     z: 0
                     y: -150
-
+                    
                     Model {
                         source: "#Cube"
                         scale.z: 3
@@ -69,15 +69,15 @@ Window {
                         }
                     }
                 }
-
-
+                
+                
                 // Detector
                 Node {
                     id: detector
                     x: 0
                     z: 0
                     y: -145
-
+                    
                     Model {
                         source: "#Cube"
                         scale.z: 0.5
@@ -91,20 +91,20 @@ Window {
                         }
                     }
                 }
-
+                
             }
-
-
+            
+            
             // Source
             Node {
                 id: source_screen
-
+                
                 // Source top
                 Node {
                     x: 0
                     z: 0
                     y: 175
-
+                    
                     Model {
                         source: "#Cube"
                         scale.z: 0.5
@@ -118,14 +118,14 @@ Window {
                         }
                     }
                 }
-
-
+                
+                
                 // Source bottom
                 Node {
                     x: 0
                     z: 0
                     y: 150
-
+                    
                     Model {
                         source: "#Cone"
                         scale.z: 0.5
@@ -139,25 +139,25 @@ Window {
                         }
                     }
                 }
-
+                
             }
-
-
+            
+            
             // Display
             Node {
                 id: display
-
+                
                 DirectionalLight {
                     eulerRotation.z: -1
                 }
-
-
-
+                
+                
+                
                 Node {
                     x: 200
                     z: -100
                     y: 50
-
+                    
                     Model {
                         source: "#Cube"
                         scale.z: 1.6
@@ -171,15 +171,15 @@ Window {
                             roughness: 0.0
                         }
                     }
-
+                    
                 }
-
-
+                
+                
                 Node {
                     x: 195
                     z: -100
                     y: 50
-
+                    
                     Model {
                         source: "#Cube"
                         scale.z: 1.5
@@ -194,14 +194,14 @@ Window {
                         }
                     }
                 }
-
+                
             }
         }
     }
-
+    
     // move the camera freely
-
-
+    
+    
     WasdController {
         x: 0
         y: 0
@@ -209,15 +209,15 @@ Window {
         height: 800
         controlledObject: microscopy
     }
-
-
+    
+    
     Button {
         id: button
         x: 1036
         y: 460
         text: qsTr("Add Lense")
     }
-
+    
     Rectangle {
         id: rectangle
         x: 921
@@ -225,7 +225,7 @@ Window {
         width: 329
         height: 63
         color: "#bfc1e1"
-
+        
         Text {
             id: text1
             text: qsTr("Microscopy Controls")
@@ -240,7 +240,7 @@ Window {
             minimumPixelSize: 22
         }
     }
-
+    
     Rectangle {
         id: rectangle1
         x: 920
@@ -250,7 +250,18 @@ Window {
         color: "#ffffff"
         border.color: "#64bd9d"
         border.width: 3
-
+        
+        
+        Rectangle {
+            id: rectangle2
+            x: 3
+            y: 4
+            width: 158
+            height: 38
+            color: "#ccddd0"
+            border.color: "#968f8f"
+        }
+        
         TextInput {
             id: textInput
             x: 172
@@ -258,44 +269,80 @@ Window {
             width: 151
             height: 45
             text: qsTr("100")
-            font.pixelSize: 12
+            font.pixelSize: 15
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
         }
+        
+        Text {
+            id: text2
+            x: 7
+            y: 6
+            width: 150
+            height: 33
+            text: qsTr("Position")
+            font.pixelSize: 18
+            horizontalAlignment: Text.AlignLeft
+            verticalAlignment: Text.AlignVCenter
+        }
     }
-
-    Text {
-        id: text2
-        x: 927
-        y: 69
-        width: 150
-        height: 33
-        text: qsTr("Position")
-        font.pixelSize: 18
-        horizontalAlignment: Text.AlignLeft
-        verticalAlignment: Text.AlignVCenter
-    }
-
+    
     Rectangle {
-        id: rectangle2
-        x: 1066
-        y: 183
-        width: 200
-        height: 200
+        id: rectangle3
+        x: 920
+        y: 108
+        width: 331
+        height: 45
         color: "#ffffff"
+        border.color: "#64bd9d"
+        border.width: 3
+        Rectangle {
+            id: rectangle4
+            x: 3
+            y: 4
+            width: 158
+            height: 38
+            color: "#ccddd0"
+            border.color: "#968f8f"
+        }
+
+        TextInput {
+            id: textInput1
+            x: 172
+            y: 0
+            width: 151
+            height: 45
+            text: qsTr("100")
+            font.pixelSize: 15
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+        }
+
+        Text {
+            id: text3
+            x: 7
+            y: 6
+            width: 150
+            height: 33
+            text: qsTr("Ve")
+            font.pixelSize: 18
+            horizontalAlignment: Text.AlignLeft
+            verticalAlignment: Text.AlignVCenter
+        }
     }
-
-
-
-
-
-
-
-
-
-
-
-
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
 
 
