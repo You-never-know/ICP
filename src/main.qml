@@ -6,18 +6,23 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.11
 
 Window {
-
+    id: window
     width: 1250
     height: 800
     visible: true
     color: "#6f6a6a"
     title: qsTr("Microscopy")
 
-    function create_lense(y, id) {
+    property var lense: null
 
+    function createLense(y, id) {
+        var component = Qt.createComponent("lense.qml")
+        lense = component.createObject(microscopy, {position:0, id: "lense3"})
     }
 
+
     View3D {
+        id: view
         anchors.fill: parent;
         anchors.rightMargin: 329
         anchors.bottomMargin: 0
@@ -39,6 +44,7 @@ Window {
 
 
         DirectionalLight {
+            visible: true
             eulerRotation.x: -45
         }
 
@@ -148,6 +154,7 @@ Window {
                 id: display
 
                 DirectionalLight {
+                    visible: true
                     eulerRotation.z: -1
                 }
 
@@ -197,6 +204,18 @@ Window {
 
             }
         }
+
+        DirectionalLight {
+            id: lightDirectional
+            x: 0
+            y: 0
+            visible: true
+            scale.x: 1
+            eulerRotation.x: 90
+            eulerRotation.z: 0
+            eulerRotation.y: -44
+            pivot.y: 0
+        }
     }
 
     // move the camera freely
@@ -211,79 +230,224 @@ Window {
     }
 
 
-    Button {
-        id: button
-        x: 1036
-        y: 460
-        text: qsTr("Add Lense")
-    }
-
-    Rectangle {
-        id: rectangle
+    Column {
+        id: column
         x: 921
         y: 0
         width: 329
-        height: 63
-        color: "#bfc1e1"
+        height: 793
+        anchors.right: parent.right
 
-        Text {
-            id: text1
-            text: qsTr("Microscopy Controls")
-            anchors.fill: parent
-            font.pixelSize: 24
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-            font.bold: true
-            fontSizeMode: Text.VerticalFit
-            textFormat: Text.AutoText
-            minimumPointSize: 19
-            minimumPixelSize: 22
+
+        Rectangle {
+            id: rectangle
+            width: 329
+            height: 63
+            color: "#bfc1e1"
+            transformOrigin: Item.Center
+            anchors.right: parent.right
+
+            Text {
+                id: text1
+                text: qsTr("Microscopy Controls")
+                anchors.fill: parent
+                font.pixelSize: 24
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                font.bold: true
+                fontSizeMode: Text.VerticalFit
+                textFormat: Text.AutoText
+                minimumPointSize: 19
+                minimumPixelSize: 22
+            }
         }
-    }
 
-    Rectangle {
-        id: rectangle1
-        x: 920
-        y: 63
-        width: 331
-        height: 45
-        color: "#ffffff"
-        border.color: "#64bd9d"
-        border.width: 3
-
-        TextInput {
-            id: textInput
-            x: 172
-            y: 0
-            width: 151
+        Rectangle {
+            id: rectangle1
+            width: 331
             height: 45
-            text: qsTr("100")
-            font.pixelSize: 12
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
+            color: "#ffffff"
+            border.color: "#64bd9d"
+            border.width: 2
+            anchors.right: parent.right
+
+            Rectangle {
+                id: rectangle2
+                x: 3
+                y: 4
+                width: 158
+                height: 38
+                color: "#ccddd0"
+                border.color: "#968f8f"
+            }
+
+            TextInput {
+                id: lensePositionAdd
+                x: 163
+                y: 0
+                width: 168
+                height: 45
+                text: qsTr("100")
+                font.pixelSize: 15
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+            }
+
+            Text {
+                id: text2
+                x: 7
+                y: 6
+                width: 150
+                height: 33
+                text: qsTr("Position")
+                font.pixelSize: 18
+                horizontalAlignment: Text.AlignLeft
+                verticalAlignment: Text.AlignVCenter
+            }
+        }
+
+        Rectangle {
+            id: rectangle3
+            width: 331
+            height: 45
+            color: "#ffffff"
+            border.color: "#64bd9d"
+            border.width: 2
+            anchors.right: parent.right
+            Rectangle {
+                id: rectangle4
+                x: 3
+                y: 4
+                width: 158
+                height: 38
+                color: "#ccddd0"
+                border.color: "#968f8f"
+            }
+
+            TextInput {
+                id: lenseVergencyAdd
+                x: 163
+                y: 0
+                width: 168
+                height: 45
+                text: qsTr("1.5")
+                font.pixelSize: 15
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+            }
+
+            Text {
+                id: text3
+                x: 7
+                y: 6
+                width: 150
+                height: 33
+                text: qsTr("Vergency")
+                font.pixelSize: 18
+                horizontalAlignment: Text.AlignLeft
+                verticalAlignment: Text.AlignVCenter
+            }
+        }
+
+        Rectangle {
+            id: rectangle5
+            width: 331
+            height: 45
+            color: "#ffffff"
+            border.color: "#64bd9d"
+            border.width: 2
+            anchors.right: parent.right
+            Rectangle {
+                id: rectangle6
+                x: 3
+                y: 4
+                width: 158
+                height: 38
+                color: "#ccddd0"
+                border.color: "#968f8f"
+            }
+
+            TextInput {
+                id: lenseXDeflectionAdd
+                x: 163
+                y: 0
+                width: 168
+                height: 45
+                text: qsTr("-0.5")
+                font.pixelSize: 15
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+            }
+
+            Text {
+                id: text4
+                x: 7
+                y: 6
+                width: 150
+                height: 33
+                text: qsTr("Deflection (x)")
+                font.pixelSize: 18
+                horizontalAlignment: Text.AlignLeft
+                verticalAlignment: Text.AlignVCenter
+            }
+        }
+
+        Rectangle {
+            id: rectangle7
+            x: -2
+            width: 331
+            height: 45
+            color: "#ffffff"
+            border.color: "#64bd9d"
+            border.width: 2
+            Rectangle {
+                id: rectangle8
+                x: 3
+                y: 4
+                width: 158
+                height: 38
+                color: "#ccddd0"
+                border.color: "#968f8f"
+            }
+
+            TextInput {
+                id: lenseZDeflectionAdd
+                x: 163
+                y: 0
+                width: 168
+                height: 45
+                text: qsTr("0.5")
+                font.pixelSize: 15
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+            }
+
+            Text {
+                id: text5
+                x: 7
+                y: 6
+                width: 150
+                height: 33
+                text: "Deflection (z)"
+                font.pixelSize: 18
+                horizontalAlignment: Text.AlignLeft
+                verticalAlignment: Text.AlignVCenter
+                textFormat: Text.AutoText
+            }
+        }
+
+        Button {
+            id: button
+            text: qsTr("Add Lense")
+            anchors.right: parent.right
+            anchors.rightMargin: 120
+            onClicked: createLense(0, "sa")
+
         }
     }
 
-    Text {
-        id: text2
-        x: 927
-        y: 69
-        width: 150
-        height: 33
-        text: qsTr("Position")
-        font.pixelSize: 18
-        horizontalAlignment: Text.AlignLeft
-        verticalAlignment: Text.AlignVCenter
-    }
 
-    Rectangle {
-        id: rectangle2
-        x: 1066
-        y: 183
-        width: 200
-        height: 200
-        color: "#ffffff"
-    }
+
 
 
 
@@ -302,8 +466,4 @@ Window {
 
 
 
-/*##^##
-Designer {
-    D{i:0;formeditorZoom:0.9}D{i:31}
-}
-##^##*/
+
