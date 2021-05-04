@@ -2,10 +2,10 @@
 #define LIGHTBEAM_H
 
 
-class LightBeam
+class ElectronBeam
 {
 public:
-    LightBeam();
+    ElectronBeam();
 };
 
 #endif // LIGHTBEAM_H

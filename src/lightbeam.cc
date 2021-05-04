@@ -1,6 +1,6 @@
 #include "lightbeam.h"
 
-LightBeam::LightBeam()
+ElectronBeam::ElectronBeam()
 {
 
 }
