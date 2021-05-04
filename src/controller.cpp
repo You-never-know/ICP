@@ -2,14 +2,7 @@
 
 Controller::Controller()
 {
-    //Microscopy newMicro =  { }; // TODO: INIT OBJ
-
-   // micro = std::make_unique<Microscopy>(newMicro);
-}
-
-Controller::Controller(Microscopy newMicro)
-{
-   // micro = std::make_unique<Microscopy>(newMicro);
+   micro = std::make_unique<Microscopy>();
 }
 
 bool Controller::addLense(int type, QString position, QString vergency, QString deflectionXAxis, QString deflectionZAxis) {

@@ -11,14 +11,14 @@
 
 class Microscopy
 {
-  //std::unordered_map<enum LenseType,std::unique_ptr<Lense>> lenses;
-  //std::unique_ptr<Sample> sample;
-  
+  std::unordered_map<enum LenseType,std::unique_ptr<Lense>> lenses;
+  std::unique_ptr<Sample> sample;
+
 
 public:
     Microscopy();
-   // void LenseInsert(enum LenseType,Lense newLense);
-    //void SampleInsert(Sample sample);
+    void LenseInsert(enum LenseType,Lense newLense);
+    void SampleInsert(Sample sample);
 };
 
 #endif // MICROSCOPY_H
