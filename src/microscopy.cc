@@ -7,7 +7,8 @@ Microscopy::Microscopy()
 {
 
 }
-void Microscopy::LenseInsert(enum LenseType type,Lense newLense)
+
+/*void Microscopy::LenseInsert(enum LenseType type,Lense newLense)
 {
   if (!lenses.count(type)){ // insert only if lense doesn't exist
 
@@ -21,3 +22,4 @@ void Microscopy::SampleInsert(Sample newSample)
     sample = std::make_unique<Sample>(newSample);
   }
 }
+*/

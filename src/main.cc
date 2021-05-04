@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include "controller.h"
+#include "microscopy.h"
 
 
 int main(int argc, char *argv[])
@@ -11,6 +12,7 @@ int main(int argc, char *argv[])
 #endif
 
     QGuiApplication app(argc, argv);
+    //Microscopy microscopy;
     QScopedPointer<Controller> controller(new Controller);
 
 

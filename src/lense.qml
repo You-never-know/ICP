@@ -10,10 +10,10 @@ Node {
         property var id: lense1
 
         x: 0
-        y: 0
+        y: position
         opacity: 0.453
         z: 0
-        id: lense1
+        id: id
             Model {
                 id: cylinder
                 source: "#Cylinder"

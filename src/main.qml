@@ -13,11 +13,31 @@ Window {
     color: "#6f6a6a"
     title: qsTr("Microscopy")
 
-    property var lense: null
+    property var condenserLense: null
+    property var objectiveLense: null
+    property var intermediateLense: null
+    property var projectorLense: null
 
     function createLense(y, id) {
         var component = Qt.createComponent("lense.qml")
-        lense = component.createObject(microscopy, {position:0, id: "lense3"})
+        var position = addLensePosition.getText(0, addLensePosition.length)
+        var vergency = addLenseVergency.getText(0, addLensePosition.length)
+        var deflectionX = addLenseXDeflection.getText(0, addLensePosition.length)
+        var deflectionZ = addLenseZDeflection.getText(0, addLensePosition.length)
+        var type
+        if (condenserLense == null) {
+            condenserLense = component.createObject(microscopy, {position:0, id: "lense3"})
+            type = 0
+        } else if(objectiveLense == null) {
+            type = 1
+        } else if (intermediateLense == null) {
+            type = 2
+        } else if (projectorLense == null) {
+            type = 3
+        } else {
+            return
+        }
+        controller.addLense(type, position, vergency, deflectionX, deflectionZ)
     }
 
 
@@ -281,18 +301,6 @@ Window {
                 border.color: "#968f8f"
             }
 
-            TextInput {
-                id: lensePositionAdd
-                x: 163
-                y: 0
-                width: 168
-                height: 45
-                text: qsTr("100")
-                font.pixelSize: 15
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-            }
-
             Text {
                 id: text2
                 x: 7
@@ -303,6 +311,17 @@ Window {
                 font.pixelSize: 18
                 horizontalAlignment: Text.AlignLeft
                 verticalAlignment: Text.AlignVCenter
+            }
+
+            TextField {
+                id: addLensePosition
+                x: 164
+                y: 2
+                width: 167
+                height: 40
+                horizontalAlignment: Text.AlignHCenter
+                hoverEnabled: false
+                placeholderText: qsTr("100")
             }
         }
 
@@ -324,18 +343,6 @@ Window {
                 border.color: "#968f8f"
             }
 
-            TextInput {
-                id: lenseVergencyAdd
-                x: 163
-                y: 0
-                width: 168
-                height: 45
-                text: qsTr("1.5")
-                font.pixelSize: 15
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-            }
-
             Text {
                 id: text3
                 x: 7
@@ -346,6 +353,17 @@ Window {
                 font.pixelSize: 18
                 horizontalAlignment: Text.AlignLeft
                 verticalAlignment: Text.AlignVCenter
+            }
+
+            TextField {
+                id: addLenseVergency
+                x: 164
+                y: 3
+                width: 167
+                height: 40
+                horizontalAlignment: Text.AlignHCenter
+                hoverEnabled: false
+                placeholderText: qsTr("1.5")
             }
         }
 
@@ -367,18 +385,6 @@ Window {
                 border.color: "#968f8f"
             }
 
-            TextInput {
-                id: lenseXDeflectionAdd
-                x: 163
-                y: 0
-                width: 168
-                height: 45
-                text: qsTr("-0.5")
-                font.pixelSize: 15
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-            }
-
             Text {
                 id: text4
                 x: 7
@@ -389,6 +395,18 @@ Window {
                 font.pixelSize: 18
                 horizontalAlignment: Text.AlignLeft
                 verticalAlignment: Text.AlignVCenter
+            }
+
+            TextField {
+                id: addLenseXDeflection
+                x: 164
+                y: 3
+                width: 167
+                height: 40
+                text: "-0.5"
+                horizontalAlignment: Text.AlignHCenter
+                hoverEnabled: false
+                placeholderText: qsTr("1.5")
             }
         }
 
@@ -410,18 +428,6 @@ Window {
                 border.color: "#968f8f"
             }
 
-            TextInput {
-                id: lenseZDeflectionAdd
-                x: 163
-                y: 0
-                width: 168
-                height: 45
-                text: qsTr("0.5")
-                font.pixelSize: 15
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-            }
-
             Text {
                 id: text5
                 x: 7
@@ -433,6 +439,18 @@ Window {
                 horizontalAlignment: Text.AlignLeft
                 verticalAlignment: Text.AlignVCenter
                 textFormat: Text.AutoText
+            }
+
+            TextField {
+                id: addLenseZDeflection
+                x: 164
+                y: 3
+                width: 167
+                height: 40
+                text: "0.5"
+                horizontalAlignment: Text.AlignHCenter
+                hoverEnabled: false
+                placeholderText: qsTr("1.5")
             }
         }
 
