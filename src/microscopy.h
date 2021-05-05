@@ -19,6 +19,9 @@ public:
     Microscopy();
     void LenseInsert(enum LenseType,Lense newLense);
     void SampleInsert(Sample sample);
+    bool checkPosition(int pos);
+    Lense GetLense(enum LenseType key);
+
 };
 
 #endif // MICROSCOPY_H

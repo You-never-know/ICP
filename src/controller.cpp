@@ -1,9 +1,11 @@
 #include "controller.h"
 #include "lense.h"
+#include <QDebug>
 
 Controller::Controller()
 {
    micro = std::make_unique<Microscopy>();
+
 }
 
 
@@ -15,22 +17,7 @@ int Controller::addLense(int type, QString position, QString vergency, QString d
     double lenseZAxisDeflection;
     LenseType lenseType;
     lensePosition = position.toInt(&flag);
-    // indicate error while conversion
-    if (flag == false) {
-        return -1;
-    }
-    lenseVergency = vergency.toDouble(&flag);
-    if (flag == false) {
-        return -1;
-    }
-    lenseXAxisDeflection = deflectionXAxis.toDouble(&flag);
-    if (flag == false) {
-        return -1;
-    }
-    lenseZAxisDeflection = deflectionZAxis.toDouble(&flag);
-    if (flag == false) {
-        return -1;
-    }
+
     switch (type) {
         case 0:
             lenseType = Condenser;
@@ -48,7 +35,38 @@ int Controller::addLense(int type, QString position, QString vergency, QString d
             return -1;
     }
 
+
+    if (!checkLense(lensePosition,lenseType)){
+      return -1;
+    }
+
+
+    // indicate error while conversion
+    if (flag == false) {
+        return -1;
+    }
+    lenseVergency = vergency.toDouble(&flag);
+    if (flag == false) {
+        return -1;
+    }
+    lenseXAxisDeflection = deflectionXAxis.toDouble(&flag);
+    if (flag == false) {
+        return -1;
+    }
+    lenseZAxisDeflection = deflectionZAxis.toDouble(&flag);
+    if (flag == false) {
+        return -1;
+    }
+
     Lense new_lense = Lense{lenseType, lensePosition, lenseVergency, lenseXAxisDeflection, lenseZAxisDeflection};
     micro->LenseInsert(lenseType ,new_lense);
     return lensePosition;
+}
+bool Controller::checkLense(int pos,enum LenseType type )
+{
+    if(type == (micro->GetLense(type).GetType())){
+      return false ;
+    } // same types are forbidden
+
+    return micro->checkPosition(pos);
 }
