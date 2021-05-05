@@ -17,19 +17,26 @@ Window {
     property var objectiveLense: null
     property var intermediateLense: null
     property var projectorLense: null
+    property var samplePosition: -1
+    property var sampleRotationX: 0
+    property var sampleRotationY: 0
+    property var sampleRotationZ: 0
+    property var selectedLense: null
 
-    function createLense(y, id) {
+
+    function createLense() {
         var component = Qt.createComponent("lense.qml")
         var position = addLensePosition.getText(0, addLensePosition.length)
         var vergency = addLenseVergency.getText(0, addLensePosition.length)
         var deflectionX = addLenseXDeflection.getText(0, addLensePosition.length)
         var deflectionZ = addLenseZDeflection.getText(0, addLensePosition.length)
         var lenseType = 0
-
+        logOutput.text = "..."
         if (condenserLense == null) {
             lenseType = 0
             position = controller.addLense(lenseType, position, vergency, deflectionX, deflectionZ)
             if (position === -1 || position <= -145 || position >= 150) {
+                logOutput.text = "Incorrect position given"
                 return
             }
             condenserLense = component.createObject(microscopy, {position:position, id: "condenserLense"})
@@ -37,6 +44,7 @@ Window {
             lenseType = 1
             position = controller.addLense(lenseType, position, vergency, deflectionX, deflectionZ)
             if (position === -1 || position <= -145 || position >= 150) {
+                logOutput.text = "Incorrect position given"
                 return
             }
             objectiveLense = component.createObject(microscopy, {position:position, id: "objectiveLense"})
@@ -44,6 +52,7 @@ Window {
             lenseType = 2
             position = controller.addLense(lenseType, position, vergency, deflectionX, deflectionZ)
             if (position === -1 || position <= -145 || position >= 150) {
+                logOutput.text = "Incorrect position given"
                 return
             }
             intermediateLense = component.createObject(microscopy, {position:position, id: "intermediateLense"})
@@ -51,10 +60,12 @@ Window {
             lenseType = 3
             position = controller.addLense(lenseType, position, vergency, deflectionX, deflectionZ)
             if (position === -1 || position <= -145 || position >= 150) {
+                logOutput.text = "Incorrect position given"
                 return
             }
             projectorLense = component.createObject(microscopy, {position:position, id: "projectorLense"})
         } else {
+            logOutput.text = "All 4 lenses already placed"
             return
         }
     }
@@ -89,6 +100,55 @@ Window {
 
         Node {
             id: microscopy
+
+            Node {
+                id: sample
+                y: samplePosition
+                x: 0
+                z: 0
+
+                Node {
+                    Model {
+                        source: "#Cylinder"
+                        scale.y: 0.01
+                        scale.x: 0.5
+                        scale.z: 0.5
+                        opacity: 0.5
+                        eulerRotation.x: sampleRotationX
+                        eulerRotation.y: 30 + sampleRotationY
+                        eulerRotation.z: sampleRotationZ
+                        materials: PrincipledMaterial {
+                            baseColor: "lightcoral"
+                            metalness: 0.0
+                            roughness: 1.5
+                        }
+
+                    }
+                }
+                Node {
+                    Model {
+                        source: "#Cube"
+                        scale.y: 0.01
+                        scale.x: 0.55
+                        scale.z: 0.55
+                        opacity: 0.5
+                        y: samplePosition - 0.01
+                        eulerRotation.x: sampleRotationX
+                        eulerRotation.y: 30 + sampleRotationY
+                        eulerRotation.z: sampleRotationZ
+                        materials: PrincipledMaterial {
+                            baseColor: "black"
+                            metalness: 0.0
+                            roughness: 1.5
+                        }
+
+                    }
+
+                }
+
+            }
+
+
 
             Node {
                 id: base_platform
@@ -242,7 +302,8 @@ Window {
                 }
 
             }
-        }
+
+}
 
         DirectionalLight {
             id: lightDirectional
@@ -257,14 +318,14 @@ Window {
         }
     }
 
-    // move the camera freely
-
 
     WasdController {
         x: 0
         y: 0
         width: 921
         height: 800
+        xInvert: true
+        yInvert: true
         controlledObject: microscopy
     }
 
@@ -283,6 +344,7 @@ Window {
             width: 329
             height: 63
             color: "#bfc1e1"
+            border.width: 2
             transformOrigin: Item.Center
             anchors.right: parent.right
 
@@ -298,6 +360,90 @@ Window {
                 textFormat: Text.AutoText
                 minimumPointSize: 19
                 minimumPixelSize: 22
+            }
+        }
+
+        Rectangle {
+            id: rectangle11
+            width: 331
+            height: 45
+            color: "#ffffff"
+            border.color: "#64bd9d"
+            border.width: 2
+            anchors.right: parent.right
+            Rectangle {
+                id: rectangle12
+                x: 3
+                y: 4
+                width: 328
+                height: 38
+                color: "#91d4a1"
+                border.color: "#968f8f"
+            }
+
+            Text {
+                id: text7
+                x: 7
+                y: 6
+                width: 324
+                height: 33
+                text: qsTr("Log")
+                font.pixelSize: 18
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+            }
+        }
+
+        Rectangle {
+            id: rectangle9
+            width: 331
+            height: 45
+            color: "#b4ece0"
+            border.color: "#64bd9d"
+            border.width: 2
+            anchors.right: parent.right
+
+            Text {
+                id: logOutput
+                x: 13
+                y: 0
+                width: 302
+                height: 45
+                text: qsTr("...")
+                font.pixelSize: 15
+                horizontalAlignment: Text.AlignLeft
+                verticalAlignment: Text.AlignVCenter
+            }
+        }
+
+        Rectangle {
+            id: rectangle13
+            width: 331
+            height: 45
+            color: "#ffffff"
+            border.color: "#64bd9d"
+            border.width: 2
+            anchors.right: parent.right
+            Rectangle {
+                id: rectangle14
+                x: 3
+                y: 4
+                width: 328
+                height: 38
+                color: "#91d4a1"
+                border.color: "#968f8f"
+            }
+
+            Text {
+                id: text8
+                x: 7
+                y: 6
+                width: 324
+                height: 33
+                text: qsTr("Lense")
+                font.pixelSize: 18
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
             }
         }
 
@@ -340,7 +486,7 @@ Window {
                 height: 40
                 horizontalAlignment: Text.AlignHCenter
                 hoverEnabled: false
-                placeholderText: qsTr("100")
+                placeholderText: qsTr("Range: -146 to 149")
             }
         }
 
@@ -380,9 +526,10 @@ Window {
                 y: 3
                 width: 167
                 height: 40
+                text: ""
                 horizontalAlignment: Text.AlignHCenter
                 hoverEnabled: false
-                placeholderText: qsTr("1.5")
+                placeholderText: qsTr("Default: 0.0")
             }
         }
 
@@ -422,10 +569,10 @@ Window {
                 y: 3
                 width: 167
                 height: 40
-                text: "-0.5"
+                text: ""
                 horizontalAlignment: Text.AlignHCenter
                 hoverEnabled: false
-                placeholderText: qsTr("1.5")
+                placeholderText: qsTr("Default: 0.0")
             }
         }
 
@@ -466,21 +613,58 @@ Window {
                 y: 3
                 width: 167
                 height: 40
-                text: "0.5"
+                text: ""
                 horizontalAlignment: Text.AlignHCenter
                 hoverEnabled: false
-                placeholderText: qsTr("1.5")
+                placeholderText: qsTr("Default: 0.0")
             }
         }
 
-        Button {
-            id: button
-            text: qsTr("Add Lense")
-            anchors.right: parent.right
-            anchors.rightMargin: 120
-            onClicked: createLense(0, "sa")
+        Rectangle {
+            id: rectangle10
+            x: -2
+            width: 331
+            height: 45
+            color: "#00000000"
+            border.color: "#64bd9d"
+            border.width: 0
 
+            Button {
+                id: addLenseButton
+                x: 8
+                y: 5
+                width: 100
+                text: qsTr("Add")
+                anchors.right: parent.right
+                anchors.rightMargin: 223
+                onClicked: createLense(0, "sa")
+
+            }
+
+            Button {
+                id: changeLenseButton
+                x: 223
+                y: 5
+                text: qsTr("Delete")
+                anchors.right: parent.right
+                anchors.rightMargin: 8
+            }
+
+            Button {
+                id: changeLenseButton1
+                x: 116
+                y: 5
+                width: 100
+                text: qsTr("Change")
+                anchors.right: parent.right
+                anchors.rightMargin: 116
+            }
         }
+
+
+
+
+
     }
 
 

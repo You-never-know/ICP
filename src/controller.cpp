@@ -21,15 +21,15 @@ int Controller::addLense(int type, QString position, QString vergency, QString d
     }
     lenseVergency = vergency.toDouble(&flag);
     if (flag == false) {
-        return -1;
+        lenseVergency = 0;
     }
     lenseXAxisDeflection = deflectionXAxis.toDouble(&flag);
     if (flag == false) {
-        return -1;
+        lenseXAxisDeflection = 0;
     }
     lenseZAxisDeflection = deflectionZAxis.toDouble(&flag);
     if (flag == false) {
-        return -1;
+        lenseZAxisDeflection = 0;
     }
     switch (type) {
         case 0:
