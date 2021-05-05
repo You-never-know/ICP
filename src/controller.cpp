@@ -17,7 +17,26 @@ int Controller::addLense(int type, QString position, QString vergency, QString d
     double lenseZAxisDeflection;
     LenseType lenseType;
     lensePosition = position.toInt(&flag);
+<<<<<<< HEAD
 
+=======
+    // indicate error while conversion
+    if (flag == false) {
+        return -1;
+    }
+    lenseVergency = vergency.toDouble(&flag);
+    if (flag == false) {
+        lenseVergency = 0;
+    }
+    lenseXAxisDeflection = deflectionXAxis.toDouble(&flag);
+    if (flag == false) {
+        lenseXAxisDeflection = 0;
+    }
+    lenseZAxisDeflection = deflectionZAxis.toDouble(&flag);
+    if (flag == false) {
+        lenseZAxisDeflection = 0;
+    }
+>>>>>>> origin/main
     switch (type) {
         case 0:
             lenseType = Condenser;
