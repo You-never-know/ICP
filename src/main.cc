@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
     QScopedPointer<Controller> controller(new Controller);
-    QScopedPointer<Microscopy> microscop(new Microscopy);
+    //QScopedPointer<Microscopy> microscop(new Microscopy);
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));

@@ -24,20 +24,39 @@ Window {
         var vergency = addLenseVergency.getText(0, addLensePosition.length)
         var deflectionX = addLenseXDeflection.getText(0, addLensePosition.length)
         var deflectionZ = addLenseZDeflection.getText(0, addLensePosition.length)
-        var type
+        var lenseType = 0
+
         if (condenserLense == null) {
-            condenserLense = component.createObject(microscopy, {position:0, id: "lense3"})
-            type = 0
+            lenseType = 0
+            position = controller.addLense(lenseType, position, vergency, deflectionX, deflectionZ)
+            if (position === -1 || position <= -145 || position >= 150) {
+                return
+            }
+            condenserLense = component.createObject(microscopy, {position:position, id: "condenserLense"})
         } else if(objectiveLense == null) {
-            type = 1
+            lenseType = 1
+            position = controller.addLense(lenseType, position, vergency, deflectionX, deflectionZ)
+            if (position === -1 || position <= -145 || position >= 150) {
+                return
+            }
+            objectiveLense = component.createObject(microscopy, {position:position, id: "objectiveLense"})
         } else if (intermediateLense == null) {
-            type = 2
+            lenseType = 2
+            position = controller.addLense(lenseType, position, vergency, deflectionX, deflectionZ)
+            if (position === -1 || position <= -145 || position >= 150) {
+                return
+            }
+            intermediateLense = component.createObject(microscopy, {position:position, id: "intermediateLense"})
         } else if (projectorLense == null) {
-            type = 3
+            lenseType = 3
+            position = controller.addLense(lenseType, position, vergency, deflectionX, deflectionZ)
+            if (position === -1 || position <= -145 || position >= 150) {
+                return
+            }
+            projectorLense = component.createObject(microscopy, {position:position, id: "projectorLense"})
         } else {
             return
         }
-        controller.addLense(type, position, vergency, deflectionX, deflectionZ)
     }
 
 

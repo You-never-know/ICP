@@ -12,7 +12,7 @@ class Lense
     double deflectionXAxis;
     double deflectionZAxis;
 public:
-    Lense(LenseType, int, double, double, double);
+    Lense(LenseType type, int position, double vergency, double deflectionXAxis, double deflectionZAxis);
 };
 
 #endif // LENSE_H

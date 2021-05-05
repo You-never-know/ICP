@@ -16,7 +16,7 @@ class Controller : public QObject
      std::unique_ptr<Microscopy> micro;
 public:
     Q_INVOKABLE explicit Controller();
-    Q_INVOKABLE bool addLense(int, QString, QString, QString, QString);
+    Q_INVOKABLE int addLense(int, QString, QString, QString, QString);
 
 };
 

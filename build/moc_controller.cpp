@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_Controller_t {
-    QByteArrayData data[4];
-    char stringdata0[32];
+    QByteArrayData data[3];
+    char stringdata0[21];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -34,11 +34,10 @@ static const qt_meta_stringdata_Controller_t qt_meta_stringdata_Controller = {
     {
 QT_MOC_LITERAL(0, 0, 10), // "Controller"
 QT_MOC_LITERAL(1, 11, 8), // "addLense"
-QT_MOC_LITERAL(2, 20, 0), // ""
-QT_MOC_LITERAL(3, 21, 10) // "Microscopy"
+QT_MOC_LITERAL(2, 20, 0) // ""
 
     },
-    "Controller\0addLense\0\0Microscopy"
+    "Controller\0addLense\0"
 };
 #undef QT_MOC_LITERAL
 
@@ -51,7 +50,7 @@ static const uint qt_meta_data_Controller[] = {
        1,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
-       2,   34, // constructors
+       1,   31, // constructors
        0,       // flags
        0,       // signalCount
 
@@ -59,15 +58,13 @@ static const uint qt_meta_data_Controller[] = {
        1,    5,   19,    2, 0x02 /* Public */,
 
  // methods: parameters
-    QMetaType::Bool, QMetaType::Int, QMetaType::QString, QMetaType::QString, QMetaType::QString, QMetaType::QString,    2,    2,    2,    2,    2,
+    QMetaType::Int, QMetaType::Int, QMetaType::QString, QMetaType::QString, QMetaType::QString, QMetaType::QString,    2,    2,    2,    2,    2,
 
  // constructors: parameters
     0x80000000 | 2,
-    0x80000000 | 2, 0x80000000 | 3,    2,
 
  // constructors: name, argc, parameters, tag, flags
        0,    0,   30,    2, 0x0e /* Public */,
-       0,    1,   31,    2, 0x0e /* Public */,
 
        0        // eod
 };
@@ -78,16 +75,14 @@ void Controller::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         switch (_id) {
         case 0: { Controller *_r = new Controller();
             if (_a[0]) *reinterpret_cast<QObject**>(_a[0]) = _r; } break;
-        case 1: { Controller *_r = new Controller((*reinterpret_cast< Microscopy(*)>(_a[1])));
-            if (_a[0]) *reinterpret_cast<QObject**>(_a[0]) = _r; } break;
         default: break;
         }
     } else if (_c == QMetaObject::InvokeMetaMethod) {
         auto *_t = static_cast<Controller *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: { bool _r = _t->addLense((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2])),(*reinterpret_cast< QString(*)>(_a[3])),(*reinterpret_cast< QString(*)>(_a[4])),(*reinterpret_cast< QString(*)>(_a[5])));
-            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = std::move(_r); }  break;
+        case 0: { int _r = _t->addLense((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2])),(*reinterpret_cast< QString(*)>(_a[3])),(*reinterpret_cast< QString(*)>(_a[4])),(*reinterpret_cast< QString(*)>(_a[5])));
+            if (_a[0]) *reinterpret_cast< int*>(_a[0]) = std::move(_r); }  break;
         default: ;
         }
     }
