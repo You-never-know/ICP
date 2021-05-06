@@ -34,42 +34,78 @@ Window {
         logOutput.text = "..."
         if (condenserLense == null) {
             lenseType = 0
-            position = controller.addLense(lenseType, position, vergency, deflectionX, deflectionZ)
+            position = controller.modifyLense(lenseType, position, vergency, deflectionX, deflectionZ, true)
             if (position === -1 || position <= -145 || position >= 150) {
                 logOutput.text = "Incorrect position given"
                 return
             }
-            condenserLense = component.createObject(microscopy, {position:position, id: "condenserLense"})
+            condenserLense = component.createObject(microscopy, {position:position, lenseType: lenseType})
         } else if(objectiveLense == null) {
             lenseType = 1
-            position = controller.addLense(lenseType, position, vergency, deflectionX, deflectionZ)
+            position = controller.modifyLense(lenseType, position, vergency, deflectionX, deflectionZ, true)
             if (position === -1 || position <= -145 || position >= 150) {
                 logOutput.text = "Incorrect position given"
                 return
             }
-            objectiveLense = component.createObject(microscopy, {position:position, id: "objectiveLense"})
-        } else if (intermediateLense == null) {
+            objectiveLense = component.createObject(microscopy, {position:position, lenseType: lenseType})
+            } else if (intermediateLense == null) {
             lenseType = 2
-            position = controller.addLense(lenseType, position, vergency, deflectionX, deflectionZ)
+            position = controller.modifyLense(lenseType, position, vergency, deflectionX, deflectionZ, true)
             if (position === -1 || position <= -145 || position >= 150) {
                 logOutput.text = "Incorrect position given"
                 return
             }
-            intermediateLense = component.createObject(microscopy, {position:position, id: "intermediateLense"})
+            intermediateLense = component.createObject(microscopy, {position:position, lenseType: lenseType})
         } else if (projectorLense == null) {
             lenseType = 3
-            position = controller.addLense(lenseType, position, vergency, deflectionX, deflectionZ)
+            position = controller.modifyLense(lenseType, position, vergency, deflectionX, deflectionZ, true)
             if (position === -1 || position <= -145 || position >= 150) {
                 logOutput.text = "Incorrect position given"
                 return
             }
-            projectorLense = component.createObject(microscopy, {position:position, id: "projectorLense"})
+            projectorLense = component.createObject(microscopy, {position:position, lenseType: lenseType})
         } else {
             logOutput.text = "All 4 lenses already placed"
             return
         }
     }
 
+
+    function showSelectedLense(type) {
+        if (selectedLense == null) {
+            return
+        }
+        addLensePosition.text = controller.getLensePosition(type)
+        addLenseVergency.text = controller.getLenseVergency(type)
+        addLenseXDeflection.text = controller.getLenseXAxisDeflection(type)
+        addLenseZDeflection.text = controller.getLenseZAxisDeflection(type)
+    }
+
+
+
+    function changeSelectedLense() {
+        if (selectedLense == null) {
+            return
+        }
+        var component = Qt.createComponent("lense.qml")
+        var position = addLensePosition.getText(0, addLensePosition.length)
+        var vergency = addLenseVergency.getText(0, addLensePosition.length)
+        var deflectionX = addLenseXDeflection.getText(0, addLensePosition.length)
+        var deflectionZ = addLenseZDeflection.getText(0, addLensePosition.length)
+        var lenseType = selectedLense.identifier
+        position = controller.modifyLense(lenseType, position, vergency, deflectionX, deflectionZ, false)
+        if (position === -1) {
+            logOutput.text = "Incorrect data given"
+            return
+        }
+        selectedLense.y = position
+        selectedLense.isPicked = false
+        selectedLense = null
+        addLensePosition.text = ""
+        addLenseVergency.text = ""
+        addLenseXDeflection.text = ""
+        addLenseZDeflection.text = ""
+    }
 
     View3D {
         id: view
@@ -637,8 +673,7 @@ Window {
                 text: qsTr("Add")
                 anchors.right: parent.right
                 anchors.rightMargin: 223
-                onClicked: createLense(0, "sa")
-
+                onClicked: createLense()
             }
 
             Button {
@@ -658,28 +693,26 @@ Window {
                 text: qsTr("Change")
                 anchors.right: parent.right
                 anchors.rightMargin: 116
+                onClicked: changeSelectedLense()
             }
         }
-
-
-
-
-
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+    MouseArea {
+        anchors.fill: view
+        onClicked: {
+            var pickedCoordinates = view.pick(mouse.x, mouse.y)
+            if (pickedCoordinates.objectHit) {
+                  var pickedObject = pickedCoordinates.objectHit
+                  // Toggle the isPicked property for the model
+                  pickedObject.isPicked = !pickedObject.isPicked
+                  // Get picked model name
+                  selectedLense = pickedObject
+                  showSelectedLense(pickedObject.identifier)
+            }
+        }
+    }
 
 }
 

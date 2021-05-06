@@ -17,15 +17,22 @@ Lense::Lense(){
   vergency = 0;
   deflectionXAxis = 0;
   deflectionZAxis = 0;
-
 }
 
-int Lense::GetPosition()
-{
-  return position;
-}
+int Lense::getPosition() { return position;}
+void Lense::setPosition(int position) { this->position = position; }
 
-enum LenseType Lense:: GetType()
-{
-  return type;
-}
+double Lense::getVergency() { return vergency; }
+void Lense::setVergency(double vergency) { this->vergency = vergency; }
+
+double Lense::getDeflectionXAxis() { return deflectionXAxis; }
+void Lense::setDeflectionXAxis(double deflection) { this->deflectionXAxis = deflection; }
+
+double Lense::getDeflectionZAxis() { return deflectionZAxis; }
+void Lense::setDeflectionZAxis(double deflection) { this->deflectionZAxis = deflection; }
+
+enum LenseType Lense:: getType() { return type; }
+
+
+
+

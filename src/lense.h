@@ -14,8 +14,15 @@ class Lense
 public:
     Lense(LenseType type, int position, double vergency, double deflectionXAxis, double deflectionZAxis);
     Lense();
-    int GetPosition();
-    enum LenseType GetType();
+    int getPosition();
+    void setPosition(int position);
+    double getVergency();
+    void setVergency(double vergency);
+    double getDeflectionXAxis();
+    void setDeflectionXAxis(double deflection);
+    double getDeflectionZAxis();
+    void setDeflectionZAxis(double deflection);
+    enum LenseType getType();
 
 };
 

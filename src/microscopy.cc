@@ -43,7 +43,7 @@ bool Microscopy::checkPosition(int pos){
   for(auto it = lenses.begin() ; it != lenses.end() ; it++ ){
     //  qDebug() << "hell";
       Lense tmp = this->GetLense(it->first);
-      if (tmp.GetPosition() == pos){
+      if (tmp.getPosition() == pos){
       //  qDebug() << "false";
         return false;
       }

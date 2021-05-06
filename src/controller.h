@@ -17,8 +17,13 @@ class Controller : public QObject
 
 public:
     Q_INVOKABLE explicit Controller();
-    Q_INVOKABLE int addLense(int, QString, QString, QString, QString);
+    Q_INVOKABLE int modifyLense(int type, QString position, QString vergency, QString deflectionXAxis, QString deflectionZAxis, bool create);
     Q_INVOKABLE bool checkLense(int,enum LenseType);
+    Q_INVOKABLE int getLensePosition(int lenseType);
+    Q_INVOKABLE double getLenseVergency(int lenseType);
+    Q_INVOKABLE double getLenseXAxisDeflection(int lenseType);
+    Q_INVOKABLE double getLenseZAxisDeflection(int lenseType);
+    LenseType getLenseType(int type);
 };
 
 #endif // CONTROLLER_H
