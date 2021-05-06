@@ -29,6 +29,10 @@ int Controller::modifyLense(int type, QString position, QString vergency, QStrin
         if (!checkLense(lensePosition,lenseType)){
           return -1;
         }
+    } else {
+        if (!micro->checkPosition(lensePosition)) {
+            return -1;
+        }
     }
 
     lenseVergency = vergency.toDouble(&flag);
