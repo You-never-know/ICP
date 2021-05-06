@@ -18,12 +18,20 @@ Window {
     property var intermediateLense: null
     property var projectorLense: null
     property var samplePosition: -1
-    property var sampleRotationX: 0
     property var sampleRotationY: 0
-    property var sampleRotationZ: 0
     property var selectedLense: null
 
 
+    function clearSelectedLenseGUI (){
+        addLensePosition.text = ""
+        addLenseVergency.text = ""
+        addLenseXDeflection.text = ""
+        addLenseZDeflection.text = ""
+    }
+
+
+
+    // free space in microscopy ranges between -145 and 150
     function createLense() {
         var component = Qt.createComponent("lense.qml")
         var position = addLensePosition.getText(0, addLensePosition.length)
@@ -32,6 +40,7 @@ Window {
         var deflectionZ = addLenseZDeflection.getText(0, addLensePosition.length)
         var lenseType = 0
         logOutput.text = "..."
+        clearSelectedLenseGUI()
         if (condenserLense == null) {
             lenseType = 0
             position = controller.modifyLense(lenseType, position, vergency, deflectionX, deflectionZ, true)
@@ -81,6 +90,36 @@ Window {
         addLenseZDeflection.text = controller.getLenseZAxisDeflection(type)
     }
 
+    function deleteSelectedLense() {
+        if (selectedLense == null) {
+            return
+        }
+        var type = selectedLense.identifier
+        controller.deleteLense(type)
+        clearSelectedLenseGUI()
+        switch(type) {
+            case 0:
+                 condenserLense.destroy()
+                 condenserLense = null
+                 break
+            case 1:
+                 objectiveLense.destroy()
+                 objectiveLense = null
+                 break
+             case 2:
+                 intermediateLense.destroy()
+                 intermediateLense = null
+                 break
+             case 3:
+                 projectorLense.destroy()
+                 projectorLense = null
+                 break
+             default:
+                 logOutput.text = "Error while deleting lense"
+                 break
+        }
+    }
+
 
 
     function changeSelectedLense() {
@@ -101,10 +140,7 @@ Window {
         selectedLense.y = position
         selectedLense.isPicked = false
         selectedLense = null
-        addLensePosition.text = ""
-        addLenseVergency.text = ""
-        addLenseXDeflection.text = ""
-        addLenseZDeflection.text = ""
+        clearSelectedLenseGUI()
     }
 
     View3D {
@@ -683,6 +719,7 @@ Window {
                 text: qsTr("Delete")
                 anchors.right: parent.right
                 anchors.rightMargin: 8
+                onClicked: deleteSelectedLense()
             }
 
             Button {

@@ -58,9 +58,18 @@ int Controller::modifyLense(int type, QString position, QString vergency, QStrin
         selectedLense.setVergency(lenseVergency);
         selectedLense.setDeflectionXAxis(lenseXAxisDeflection);
         selectedLense.setDeflectionZAxis(lenseZAxisDeflection);
+        micro->DeleteLense(lenseType);
+        micro->LenseInsert(lenseType,selectedLense);
     }
     return lensePosition;
 }
+
+
+void Controller::deleteLense(int type) {
+    LenseType lenseType = getLenseType(type);
+    micro->DeleteLense(lenseType);
+}
+
 
 
 bool Controller::checkLense(int pos,enum LenseType type )

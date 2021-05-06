@@ -11,6 +11,7 @@ Microscopy::Microscopy()
   sample = std::make_unique<Sample>(newSample);
 }
 
+
 void Microscopy::LenseInsert(enum LenseType type,Lense newLense)
 {
   if (!lenses.count(type)){ // insert only if lense doesn't exist
@@ -19,12 +20,16 @@ void Microscopy::LenseInsert(enum LenseType type,Lense newLense)
     lenses.insert(std::make_pair(type,std::move(std::make_unique<Lense>(newLense))));
   }
 }
+
+
 void Microscopy::SampleInsert(Sample newSample)
 {
   if (!sample){ // only one sample can exist
     sample = std::make_unique<Sample>(newSample);
   }
 }
+
+
 Lense Microscopy::GetLense(enum LenseType key)
 {
   auto newPair = lenses.find(key);
@@ -38,6 +43,18 @@ Lense Microscopy::GetLense(enum LenseType key)
   }
 
 }
+
+
+void Microscopy::DeleteLense(enum LenseType key)
+{
+  auto newPair = lenses.find(key);
+  if(newPair != lenses.end()){
+    lenses.erase(key);
+  }
+
+}
+
+
 bool Microscopy::checkPosition(int pos){
 
   for(auto it = lenses.begin() ; it != lenses.end() ; it++ ){

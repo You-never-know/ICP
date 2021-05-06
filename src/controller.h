@@ -24,6 +24,7 @@ public:
     Q_INVOKABLE double getLenseXAxisDeflection(int lenseType);
     Q_INVOKABLE double getLenseZAxisDeflection(int lenseType);
     LenseType getLenseType(int type);
+    Q_INVOKABLE void deleteLense(int type);
 };
 
 #endif // CONTROLLER_H
