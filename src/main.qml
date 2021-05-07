@@ -29,6 +29,15 @@ Window {
         addLenseZDeflection.text = ""
     }
 
+    function createBeam(str: string) : string {
+      var component = Qt.createComponent("electronbeam.qml")
+      var position = 50
+      var beam= component.createObject(microscopy, {pos:100})
+
+      return "ASDASD"
+    }
+
+
 
 
     // free space in microscopy ranges between -145 and 150

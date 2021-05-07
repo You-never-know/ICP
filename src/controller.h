@@ -2,11 +2,12 @@
 #define CONTROLLER_H
 #include <iostream>
 #include <memory>
-
+#include <QQmlComponent>
+#include <QQmlEngine>
 #include <QObject>
 #include <QPoint>
 #include <QDebug>
-
+#include <QQmlApplicationEngine>
 #include "microscopy.h"
 #include "lense.h"
 
@@ -14,9 +15,10 @@ class Controller : public QObject
 {
      Q_OBJECT
      std::unique_ptr<Microscopy> micro;
+     QQmlApplicationEngine * engine;
 
 public:
-    Q_INVOKABLE explicit Controller();
+    Q_INVOKABLE explicit Controller(QQmlApplicationEngine * engine);
     Q_INVOKABLE int modifyLense(int type, QString position, QString vergency, QString deflectionXAxis, QString deflectionZAxis, bool create);
     Q_INVOKABLE bool checkLense(int,enum LenseType);
     Q_INVOKABLE int getLensePosition(int lenseType);
