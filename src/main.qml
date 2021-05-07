@@ -57,7 +57,7 @@ Window {
                 return
             }
             objectiveLense = component.createObject(microscopy, {position:position, lenseType: lenseType})
-            } else if (intermediateLense == null) {
+        } else if (intermediateLense == null) {
             lenseType = 2
             position = controller.modifyLense(lenseType, position, vergency, deflectionX, deflectionZ, true)
             if (position === -1 || position <= -145 || position >= 150) {
@@ -98,25 +98,25 @@ Window {
         controller.deleteLense(type)
         clearSelectedLenseGUI()
         switch(type) {
-            case 0:
-                 condenserLense.destroy()
-                 condenserLense = null
-                 break
-            case 1:
-                 objectiveLense.destroy()
-                 objectiveLense = null
-                 break
-             case 2:
-                 intermediateLense.destroy()
-                 intermediateLense = null
-                 break
-             case 3:
-                 projectorLense.destroy()
-                 projectorLense = null
-                 break
-             default:
-                 logOutput.text = "Error while deleting lense"
-                 break
+        case 0:
+            condenserLense.destroy()
+            condenserLense = null
+            break
+        case 1:
+            objectiveLense.destroy()
+            objectiveLense = null
+            break
+        case 2:
+            intermediateLense.destroy()
+            intermediateLense = null
+            break
+        case 3:
+            projectorLense.destroy()
+            projectorLense = null
+            break
+        default:
+            logOutput.text = "Error while deleting lense"
+            break
         }
     }
 
@@ -143,6 +143,32 @@ Window {
         clearSelectedLenseGUI()
     }
 
+
+    function changeSample() {
+        var newSamplePosition = sampleChangePosition.getText(0, sampleChangePosition.length)
+        var newSapleRotation = sampleChangeRotation.getText(0, sampleChangeRotation.length)
+        newSamplePosition = controller.changeSamplePosition(newSamplePosition)
+        if (newSamplePosition !== -1) {
+            samplePosition = newSamplePosition
+        } else {
+            logOutput.text = "Incorrect sample position given"
+        }
+        newSapleRotation = controller.changeSampleRotation(newSapleRotation)
+        sampleRotationY = newSapleRotation
+    }
+
+
+    function saveConfiguration() {
+        var path = filePath.getText(0, filePath.length)
+        controller.saveConfiguration(path)
+    }
+
+    function loadConfiguration() {
+        var path = filePath.getText(0, filePath.length)
+        controller.loadConfiguration(path)
+    }
+
+
     View3D {
         id: view
         anchors.fill: parent;
@@ -163,7 +189,6 @@ Window {
             x: -10
             y: 10
         }
-
 
         DirectionalLight {
             visible: true
@@ -186,9 +211,10 @@ Window {
                         scale.x: 0.5
                         scale.z: 0.5
                         opacity: 0.5
-                        eulerRotation.x: sampleRotationX
+                        y:samplePosition
+                        eulerRotation.x: 0
                         eulerRotation.y: 30 + sampleRotationY
-                        eulerRotation.z: sampleRotationZ
+                        eulerRotation.z: 0
                         materials: PrincipledMaterial {
                             baseColor: "lightcoral"
                             metalness: 0.0
@@ -205,9 +231,9 @@ Window {
                         scale.z: 0.55
                         opacity: 0.5
                         y: samplePosition - 0.01
-                        eulerRotation.x: sampleRotationX
+                        eulerRotation.x: 0
                         eulerRotation.y: 30 + sampleRotationY
-                        eulerRotation.z: sampleRotationZ
+                        eulerRotation.z: 0
                         materials: PrincipledMaterial {
                             baseColor: "black"
                             metalness: 0.0
@@ -374,8 +400,7 @@ Window {
                 }
 
             }
-
-}
+        }
 
         DirectionalLight {
             id: lightDirectional
@@ -403,18 +428,16 @@ Window {
 
 
     Column {
-        id: column
+        id: column3
         x: 921
         y: 0
         width: 329
-        height: 793
-        anchors.right: parent.right
-
+        height: 108
 
         Rectangle {
             id: rectangle
-            width: 329
-            height: 63
+            width: 328
+            height: 60
             color: "#bfc1e1"
             border.width: 2
             transformOrigin: Item.Center
@@ -427,6 +450,7 @@ Window {
                 font.pixelSize: 24
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
+                anchors.bottomMargin: 8
                 font.bold: true
                 fontSizeMode: Text.VerticalFit
                 textFormat: Text.AutoText
@@ -434,6 +458,56 @@ Window {
                 minimumPixelSize: 22
             }
         }
+
+        Rectangle {
+            id: rectangle15
+            width: 331
+            height: 45
+            color: "#00000000"
+            border.color: "#64bd9d"
+            border.width: 0
+            Button {
+                id: startMicroscopy
+                x: 8
+                y: 5
+                width: 100
+                text: qsTr("Start")
+                anchors.right: parent.right
+                anchors.rightMargin: 223
+                onClicked: controller.startAnimation()
+            }
+
+            Button {
+                id: resetMicroscopy
+                x: 223
+                y: 5
+                text: qsTr("Restart")
+                anchors.right: parent.right
+                anchors.rightMargin: 8
+                onClicked: controller.restartAnimation()
+            }
+
+            Button {
+                id: stopMicroscopy
+                x: 116
+                y: 5
+                width: 100
+                text: qsTr("Stop")
+                anchors.right: parent.right
+                anchors.rightMargin: 116
+                onClicked: controller.endAnimation()
+            }
+        }
+    }
+
+    Column {
+        id: column
+        x: 921
+        y: 112
+        width: 329
+        height: 308
+        anchors.right: parent.right
+
 
         Rectangle {
             id: rectangle11
@@ -518,6 +592,7 @@ Window {
                 verticalAlignment: Text.AlignVCenter
             }
         }
+
 
         Rectangle {
             id: rectangle1
@@ -733,6 +808,8 @@ Window {
                 onClicked: changeSelectedLense()
             }
         }
+
+
     }
 
 
@@ -741,20 +818,278 @@ Window {
         onClicked: {
             var pickedCoordinates = view.pick(mouse.x, mouse.y)
             if (pickedCoordinates.objectHit) {
-                  var pickedObject = pickedCoordinates.objectHit
-                  // Toggle the isPicked property for the model
-                  pickedObject.isPicked = !pickedObject.isPicked
-                  // Get picked model name
-                  selectedLense = pickedObject
-                  showSelectedLense(pickedObject.identifier)
+                var pickedObject = pickedCoordinates.objectHit
+                // Toggle the isPicked property for the model
+                pickedObject.isPicked = !pickedObject.isPicked
+                // Get picked model name
+                selectedLense = pickedObject
+                showSelectedLense(pickedObject.identifier)
+            }
+        }
+        onWheel: {
+            main_camera.z = main_camera.z - (wheel.angleDelta.y*0.2)
+        }
+    }
+
+    Column {
+        id: column1
+        x: 921
+        y: 477
+        width: 329
+        height: 181
+        anchors.right: parent.right
+        anchors.rightMargin: 0
+
+        Rectangle {
+            id: rectangle17
+            width: 331
+            height: 45
+            color: "#ffffff"
+            border.color: "#64bd9d"
+            border.width: 2
+            anchors.right: parent.right
+            Rectangle {
+                id: rectangle16
+                x: 3
+                y: 4
+                width: 328
+                height: 38
+                color: "#91d4a1"
+                border.color: "#968f8f"
+            }
+
+            Text {
+                id: text9
+                x: 7
+                y: 6
+                width: 324
+                height: 33
+                text: qsTr("Sample")
+                font.pixelSize: 18
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+            }
+        }
+
+        Rectangle {
+            id: rectangle22
+            width: 331
+            height: 45
+            color: "#ffffff"
+            border.color: "#64bd9d"
+            border.width: 2
+            anchors.right: parent.right
+            Rectangle {
+                id: rectangle21
+                x: 3
+                y: 4
+                width: 158
+                height: 38
+                color: "#ccddd0"
+                border.color: "#968f8f"
+            }
+
+            Text {
+                id: text11
+                x: 7
+                y: 6
+                width: 150
+                height: 33
+                text: qsTr("Position")
+                font.pixelSize: 18
+                horizontalAlignment: Text.AlignLeft
+                verticalAlignment: Text.AlignVCenter
+            }
+
+            TextField {
+                id: sampleChangePosition
+                x: 164
+                y: 2
+                width: 167
+                height: 40
+                horizontalAlignment: Text.AlignHCenter
+                hoverEnabled: false
+                placeholderText: qsTr("Range: -146 to 149")
+            }
+        }
+
+        Rectangle {
+            id: rectangle24
+            width: 331
+            height: 45
+            color: "#ffffff"
+            border.color: "#64bd9d"
+            border.width: 2
+            anchors.right: parent.right
+            Rectangle {
+                id: rectangle23
+                x: 3
+                y: 4
+                width: 158
+                height: 38
+                color: "#ccddd0"
+                border.color: "#968f8f"
+            }
+
+            Text {
+                id: text12
+                x: 7
+                y: 6
+                width: 150
+                height: 33
+                text: qsTr("Rotation")
+                font.pixelSize: 18
+                horizontalAlignment: Text.AlignLeft
+                verticalAlignment: Text.AlignVCenter
+            }
+
+            TextField {
+                id: sampleChangeRotation
+                x: 164
+                y: 3
+                width: 167
+                height: 40
+                horizontalAlignment: Text.AlignHCenter
+                hoverEnabled: false
+                placeholderText: qsTr("Default: 0")
+            }
+        }
+
+        Rectangle {
+            id: rectangle29
+            x: -2
+            width: 331
+            height: 45
+            color: "#00000000"
+            border.color: "#64bd9d"
+            border.width: 0
+
+            Button {
+                id: changeSampleButton
+                x: 116
+                y: 5
+                width: 100
+                text: qsTr("Change")
+                anchors.right: parent.right
+                anchors.rightMargin: 116
+                onClicked: changeSample()
             }
         }
     }
 
+    Column {
+        id: column2
+        x: 921
+        y: 663
+        width: 329
+        height: 134
+        anchors.right: parent.right
+        anchors.rightMargin: 0
+        Rectangle {
+            id: rectangle19
+            width: 331
+            height: 45
+            color: "#ffffff"
+            border.color: "#64bd9d"
+            border.width: 2
+            anchors.right: parent.right
+            Rectangle {
+                id: rectangle18
+                x: 3
+                y: 4
+                width: 328
+                height: 38
+                color: "#91d4a1"
+                border.color: "#968f8f"
+            }
+
+            Text {
+                id: text10
+                x: 7
+                y: 6
+                width: 324
+                height: 33
+                text: qsTr("Configuration")
+                font.pixelSize: 18
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+            }
+        }
+
+        Rectangle {
+            id: rectangle25
+            width: 331
+            height: 43
+            color: "#ffffff"
+            border.color: "#64bd9d"
+            border.width: 2
+            anchors.right: parent.right
+            Rectangle {
+                id: rectangle26
+                x: 3
+                y: 4
+                width: 107
+                height: 37
+                color: "#ccddd0"
+                border.color: "#968f8f"
+            }
+
+            Text {
+                id: text13
+                x: 7
+                y: 6
+                width: 103
+                height: 33
+                text: qsTr("File name")
+                font.pixelSize: 18
+                horizontalAlignment: Text.AlignLeft
+                verticalAlignment: Text.AlignVCenter
+            }
+
+            TextField {
+                id: filePath
+                x: 113
+                y: 3
+                width: 216
+                height: 38
+                horizontalAlignment: Text.AlignHCenter
+                hoverEnabled: false
+                placeholderText: qsTr("../data/name.in")
+            }
+        }
+
+        Rectangle {
+            id: rectangle30
+            x: -2
+            width: 331
+            height: 45
+            color: "#00000000"
+            border.color: "#64bd9d"
+            border.width: 0
+            Button {
+                id: saveConfigurationButton
+                x: 57
+                y: 4
+                width: 100
+                text: qsTr("Save")
+                anchors.right: parent.right
+                anchors.rightMargin: 174
+                onClicked: saveConfiguration()
+            }
+
+            Button {
+                id: loadConfigurationButton
+                x: 181
+                y: 4
+                width: 100
+                text: qsTr("Load")
+                anchors.right: parent.right
+                anchors.rightMargin: 50
+                onClicked: loadConfiguration()
+            }
+        }
+    }
+
+
+
 }
-
-
-
-
-
-

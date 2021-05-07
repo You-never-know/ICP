@@ -8,8 +8,14 @@
 class Sample
 {
   std::vector<quint8> samplesData;
+  int samplePosition;
+  int sampleRotation;
 public:
     Sample();
+    void setPosition(int position);
+    int getPosition();
+    void setRotation(int rotation);
+    int getRotation();
 };
 
 #endif // Sample_H

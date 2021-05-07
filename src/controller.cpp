@@ -10,6 +10,9 @@ Controller::Controller()
 
 
 int Controller::modifyLense(int type, QString position, QString vergency, QString deflectionXAxis, QString deflectionZAxis, bool create) {
+    if (micro == nullptr) {
+        return -1;
+    }
     bool flag;
     int lensePosition;
     double lenseVergency;
@@ -66,6 +69,9 @@ int Controller::modifyLense(int type, QString position, QString vergency, QStrin
 
 
 void Controller::deleteLense(int type) {
+    if (micro == nullptr) {
+        return;
+    }
     LenseType lenseType = getLenseType(type);
     micro->DeleteLense(lenseType);
 }
@@ -74,6 +80,9 @@ void Controller::deleteLense(int type) {
 
 bool Controller::checkLense(int pos,enum LenseType type )
 {
+    if (micro == nullptr) {
+        return -1;
+    }
     if(type == (micro->GetLense(type).getType())){
       return false ;
     } // same types are forbidden
@@ -100,24 +109,93 @@ LenseType Controller::getLenseType(int type) {
 
 
 int Controller::getLensePosition(int lenseType) {
+    if (micro == nullptr) {
+        return -1;
+    }
     LenseType type = getLenseType(lenseType);
     return micro->GetLense(type).getPosition();
 }
 
 
 double Controller::getLenseVergency(int lenseType) {
+    if (micro == nullptr) {
+        return 0.0;
+    }
     LenseType type = getLenseType(lenseType);
     return micro->GetLense(type).getVergency();
 }
 
 
 double Controller::getLenseXAxisDeflection(int lenseType) {
+    if (micro == nullptr) {
+        return 0.0;
+    }
     LenseType type = getLenseType(lenseType);
     return micro->GetLense(type).getDeflectionXAxis();
 }
 
 
 double Controller::getLenseZAxisDeflection(int lenseType) {
+    if (micro == nullptr) {
+        return 0.0;
+    }
     LenseType type = getLenseType(lenseType);
     return micro->GetLense(type).getDeflectionZAxis();
 }
+
+int Controller::changeSamplePosition(QString position) {
+    if (micro == nullptr) {
+        return -1;
+    }
+    bool flag;
+    int newSamplePosition = position.toInt(&flag);
+    Sample * sample = micro->GetSample();
+    if (sample == nullptr) {
+        return -1;
+    }
+    int currectSamplePosition = sample->getPosition();
+    if (flag == false || currectSamplePosition == newSamplePosition) {
+        return currectSamplePosition;
+    }
+    if (!micro->checkPosition(newSamplePosition)) {
+        return -1;
+    }
+    sample->setPosition(newSamplePosition);
+    return newSamplePosition;
+}
+
+int Controller::changeSampleRotation(QString rotation) {
+    if (micro == nullptr) {
+        return -1;
+    }
+    bool flag;
+    int sampleRotation = rotation.toInt(&flag);
+    Sample * sample = micro->GetSample();
+    if (sample == nullptr || flag == false) {
+        return 0;
+    }
+    sample->setRotation(sampleRotation);
+    return sampleRotation;
+}
+
+
+void Controller::saveConfiguration(QString fileName) {
+    ;
+}
+
+void Controller::loadConfiguration(QString fileName) {
+    ;
+}
+
+void Controller::startAnimation() {
+    ;
+}
+
+void Controller::endAnimation() {
+    ;
+}
+
+void Controller::restartAnimation() {
+    ;
+}
+

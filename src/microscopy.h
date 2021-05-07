@@ -21,6 +21,7 @@ public:
     void SampleInsert(Sample sample);
     bool checkPosition(int pos);
     Lense GetLense(enum LenseType key);
+    Sample* GetSample();
     void DeleteLense(enum LenseType key);
 
 };

@@ -22,6 +22,11 @@ void Microscopy::LenseInsert(enum LenseType type,Lense newLense)
 }
 
 
+Sample* Microscopy::GetSample() {
+    return sample.get();
+}
+
+
 void Microscopy::SampleInsert(Sample newSample)
 {
   if (!sample){ // only one sample can exist
@@ -58,14 +63,15 @@ void Microscopy::DeleteLense(enum LenseType key)
 bool Microscopy::checkPosition(int pos){
 
   for(auto it = lenses.begin() ; it != lenses.end() ; it++ ){
-    //  qDebug() << "hell";
       Lense tmp = this->GetLense(it->first);
       if (tmp.getPosition() == pos){
-      //  qDebug() << "false";
         return false;
       }
-
-
+  }
+  if (sample.get() != nullptr) {
+      if (sample.get()->getPosition() == pos) {
+          return false;
+      }
   }
   return true ;
 

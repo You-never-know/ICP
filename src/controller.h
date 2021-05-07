@@ -25,6 +25,13 @@ public:
     Q_INVOKABLE double getLenseZAxisDeflection(int lenseType);
     LenseType getLenseType(int type);
     Q_INVOKABLE void deleteLense(int type);
+    Q_INVOKABLE int changeSamplePosition(QString position);
+    Q_INVOKABLE int changeSampleRotation(QString rotation);
+    Q_INVOKABLE void saveConfiguration(QString fileName);
+    Q_INVOKABLE void loadConfiguration(QString fileName);
+    Q_INVOKABLE void startAnimation();
+    Q_INVOKABLE void endAnimation();
+    Q_INVOKABLE void restartAnimation();
 };
 
 #endif // CONTROLLER_H
