@@ -49,6 +49,11 @@ Lense Microscopy::GetLense(enum LenseType key)
 }
 
 
+std::unordered_map<enum LenseType,std::unique_ptr<Lense>>* Microscopy::GetAllLenses() {
+    return &lenses;
+}
+
+
 void Microscopy::DeleteLense(enum LenseType key)
 {
   auto newPair = lenses.find(key);

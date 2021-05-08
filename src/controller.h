@@ -37,8 +37,8 @@ public:
     Q_INVOKABLE void deleteLense(int type);
     Q_INVOKABLE int changeSamplePosition(QString position);
     Q_INVOKABLE int changeSampleRotation(QString rotation);
-    Q_INVOKABLE void saveConfiguration(QString fileName);
-    Q_INVOKABLE void loadConfiguration(QString fileName);
+    Q_INVOKABLE bool saveConfiguration(QString fileName);
+    Q_INVOKABLE bool loadConfiguration(QString fileName);
 
     Q_INVOKABLE void startAnimation();
     Q_INVOKABLE void clearAnimation();

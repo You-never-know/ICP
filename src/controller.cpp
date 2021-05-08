@@ -1,5 +1,8 @@
 #include "controller.h"
 #include "lense.h"
+#include <iostream>
+#include <fstream>
+#include <ios>
 
 Controller::Controller(QQmlApplicationEngine * engine)
 {
@@ -182,12 +185,45 @@ int Controller::changeSampleRotation(QString rotation) {
 }
 
 
-void Controller::saveConfiguration(QString fileName) {
-    ;
+bool Controller::saveConfiguration(QString fileName) {
+    using namespace std;
+    if (micro == nullptr) {
+        return false;
+    }
+    QByteArray utfFileName = fileName.toUtf8();
+    const char* finalFileName = utfFileName.data();
+    ofstream outputFile;
+    outputFile.open(finalFileName, ios::out);
+    if (!outputFile.is_open()) {
+        return false;
+    }
+    std::unordered_map<enum LenseType,std::unique_ptr<Lense>>* lenses = micro->GetAllLenses();
+    if (lenses == nullptr) {
+        return false;
+    }
+    Sample * sample = micro->GetSample();
+    if (sample == nullptr) {
+        return false;
+    }
+    outputFile << "S; " << sample->getPosition() << "; " << sample->getRotation() << ";" << endl;
+    for (auto const& [key, value]: *lenses) {
+        outputFile << "L; " << value->getType() << "; " << value->getPosition() << "; " << value->getVergency() << "; " << value->getDeflectionXAxis() << "; " << value->getDeflectionZAxis() << ";" << endl;
+    }
+    return true;
 }
 
-void Controller::loadConfiguration(QString fileName) {
-    ;
+bool Controller::loadConfiguration(QString fileName) {
+    using namespace std;
+    if (micro == nullptr) {
+        return false;
+    }
+    QByteArray utfFileName = fileName.toUtf8();
+    const char* finalFileName = utfFileName.data();
+    ofstream outputFile;
+    outputFile.open(finalFileName, ios::in);
+    if (!outputFile.is_open()) {
+        return false;
+    } // TBD
 }
 
 void Controller::startAnimation() {

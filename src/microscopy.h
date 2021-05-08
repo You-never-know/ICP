@@ -20,6 +20,7 @@ public:
     void SampleInsert(Sample sample);
     bool checkPosition(int pos);
     Lense GetLense(enum LenseType key);
+    std::unordered_map<enum LenseType,std::unique_ptr<Lense>>* GetAllLenses();
     Sample* GetSample();
     void DeleteLense(enum LenseType key);
 

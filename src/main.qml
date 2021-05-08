@@ -192,12 +192,20 @@ Window {
 
     function saveConfiguration() {
         var path = filePath.getText(0, filePath.length)
-        controller.saveConfiguration(path)
+        if (controller.saveConfiguration(path) === false) {
+            logOutput.text = "Could not save this configuration to the given file"
+        } else {
+            logOutput.text = "Configuration successfuly saved"
+        }
     }
 
     function loadConfiguration() {
         var path = filePath.getText(0, filePath.length)
-        controller.loadConfiguration(path)
+        if ( controller.loadConfiguration(path) === false) {
+            logOutput.text = "Could not loed configuration from the given file"
+        } else {
+            logOutput.text = "Configuration successfuly loaded"
+        }
     }
 
 
