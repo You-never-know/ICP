@@ -13,10 +13,10 @@ Lense::Lense(LenseType type, int position, double vergency, double deflectionXAx
 
 Lense::Lense(){
   type = Error;
-  position = 0;
-  vergency = 0;
-  deflectionXAxis = 0;
-  deflectionZAxis = 0;
+  position = -999;
+  vergency = -999;
+  deflectionXAxis = -999;
+  deflectionZAxis = -999;
 }
 
 int Lense::getPosition() { return position;}
@@ -32,7 +32,3 @@ double Lense::getDeflectionZAxis() { return deflectionZAxis; }
 void Lense::setDeflectionZAxis(double deflection) { this->deflectionZAxis = deflection; }
 
 enum LenseType Lense:: getType() { return type; }
-
-
-
-

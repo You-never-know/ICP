@@ -16,14 +16,15 @@
 #include <thread>
 
 #define START_POS 149
+#define DEFAULT_SCALE 0.2
 
 class Controller : public QObject
 {
      Q_OBJECT
-
+     
      std::unique_ptr<Microscopy> micro;
      QQmlApplicationEngine * engine;
-     ElectronBeam beam = ElectronBeam(START_POS,0.2);
+     ElectronBeam beam = ElectronBeam(START_POS,DEFAULT_SCALE);
 
 public:
     Q_INVOKABLE explicit Controller(QQmlApplicationEngine * engine);

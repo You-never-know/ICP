@@ -48,20 +48,16 @@ Window {
     function createBeam(pos: qint16,xscale: qint16 ) : string {
 
         delay(70, function(){
+
         var component = Qt.createComponent("electronbeam.qml")
         var beam = component.createObject(microscopy, {pos:pos,xscale:xscale})
-        pos -=1
-        console.log(pos);
 
         if(pos >= -146)
           controller.startAnimation()
 
         return
         })
-
-
-
-
+        
 }
     // free space in microscopy ranges between -145 and 150
     function createLense() {

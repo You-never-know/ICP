@@ -48,6 +48,25 @@ Lense Microscopy::GetLense(enum LenseType key)
 
 }
 
+enum LenseType  Microscopy::GetNearestType(int pos)
+{
+  Lense tmp;
+  enum LenseType nearest = Error;
+  int oldPos=9999;
+
+  for(auto it = lenses.begin() ; it != lenses.end() ; it++ ){
+      tmp = this->GetLense(it->first);
+      if (tmp.getPosition() - pos <= oldPos){
+
+        nearest = tmp.getType();
+        oldPos = pos - tmp.getPosition();
+      }
+
+
+  }
+
+  return nearest;
+}
 
 std::unordered_map<enum LenseType,std::unique_ptr<Lense>>* Microscopy::GetAllLenses() {
     return &lenses;

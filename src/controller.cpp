@@ -70,6 +70,7 @@ int Controller::modifyLense(int type, QString position, QString vergency, QStrin
         micro->DeleteLense(lenseType);
         micro->LenseInsert(lenseType,selectedLense);
     }
+
     return lensePosition;
 }
 
@@ -89,9 +90,11 @@ bool Controller::checkLense(int pos,enum LenseType type )
     if (micro == nullptr) {
         return -1;
     }
-    if(type == (micro->GetLense(type).getType())){
-      return false ;
-    } // same types are forbidden
+    enum LenseType Ltype =  micro->GetLense(type).getType();
+
+    if (type == Ltype)
+      return false;
+     // same types are forbidden
 
     return micro->checkPosition(pos);
 }
@@ -228,16 +231,17 @@ bool Controller::loadConfiguration(QString fileName) {
 
 void Controller::startAnimation() {
 
-  if (beam.getPosition()<= -START_POS)
-      return;
+    if (beam.getPosition()<= -START_POS)
+        return;
 
-  QString returnedValue;
-  QMetaObject::invokeMethod(engine->rootObjects().first(), "createBeam",
-  Q_RETURN_ARG(QString, returnedValue),
-  Q_ARG(QVariant,beam.getPosition()),Q_ARG(QVariant,beam.getXscale()));
-  beam.decPosition();
-  qDebug() << beam.getPosition();
-  beam.decXscale();
+    if (micro->GetLense(micro->GetNearestType(beam.getPosition())).getPosition() == beam.getPosition())
+      beam.setScale(0.5);
+    QString returnedValue;
+    QMetaObject::invokeMethod(engine->rootObjects().first(), "createBeam",
+    Q_RETURN_ARG(QString, returnedValue),
+    Q_ARG(QVariant,beam.getPosition()),Q_ARG(QVariant,beam.getScale()));
+    beam.decPosition();
+    beam.decScale();
 
 
 }

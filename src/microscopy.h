@@ -14,6 +14,7 @@ class Microscopy
   std::unique_ptr<Sample> sample;
 
 
+
 public:
     Microscopy();
     void LenseInsert(enum LenseType,Lense newLense);
@@ -23,7 +24,7 @@ public:
     std::unordered_map<enum LenseType,std::unique_ptr<Lense>>* GetAllLenses();
     Sample* GetSample();
     void DeleteLense(enum LenseType key);
-
+    enum LenseType GetNearestType(int);
 };
 
 #endif // MICROSCOPY_H
