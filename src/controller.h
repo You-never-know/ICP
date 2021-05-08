@@ -30,7 +30,7 @@ public:
     Q_INVOKABLE void saveConfiguration(QString fileName);
     Q_INVOKABLE void loadConfiguration(QString fileName);
     Q_INVOKABLE void startAnimation();
-    Q_INVOKABLE void endAnimation();
+    Q_INVOKABLE void clearAnimation();
     Q_INVOKABLE void restartAnimation();
 };
 

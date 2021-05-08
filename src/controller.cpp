@@ -191,11 +191,11 @@ void Controller::startAnimation() {
     ;
 }
 
-void Controller::endAnimation() {
+void Controller::restartAnimation() {
     ;
 }
 
-void Controller::restartAnimation() {
+void Controller::clearAnimation() {
     ;
 }
 

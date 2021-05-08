@@ -433,7 +433,7 @@ Window {
         y: 0
         width: 329
         height: 108
-
+        anchors.right: parent.right
         Rectangle {
             id: rectangle
             width: 328
@@ -492,10 +492,10 @@ Window {
                 x: 116
                 y: 5
                 width: 100
-                text: qsTr("Stop")
+                text: qsTr("Clear")
                 anchors.right: parent.right
                 anchors.rightMargin: 116
-                onClicked: controller.endAnimation()
+                onClicked: controller.clearAnimation()
             }
         }
     }
