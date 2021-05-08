@@ -16,7 +16,6 @@ void Microscopy::LenseInsert(enum LenseType type,Lense newLense)
 {
   if (!lenses.count(type)){ // insert only if lense doesn't exist
 
-    //std::pair <enum LenseType,std::unique_ptr<Lense>> NewItem ; // creats new pair
     lenses.insert(std::make_pair(type,std::move(std::make_unique<Lense>(newLense))));
   }
 }

@@ -192,10 +192,16 @@ void Controller::loadConfiguration(QString fileName) {
 
 void Controller::startAnimation() {
 
+  if (beam.getPosition()<= -START_POS)
+      return;
+
   QString returnedValue;
   QMetaObject::invokeMethod(engine->rootObjects().first(), "createBeam",
   Q_RETURN_ARG(QString, returnedValue),
-  Q_ARG(QString,"IDE"));
+  Q_ARG(QVariant,beam.getPosition()),Q_ARG(QVariant,beam.getXscale()));
+  beam.decPosition();
+  qDebug() << beam.getPosition();
+  beam.decXscale();
 
 
 }

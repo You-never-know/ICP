@@ -29,17 +29,40 @@ Window {
         addLenseZDeflection.text = ""
     }
 
-    function createBeam(str: string) : string {
-      var component = Qt.createComponent("electronbeam.qml")
-      var position = 50
-      var beam= component.createObject(microscopy, {pos:100})
+    Timer {
+          id: timer
+    }
 
-      return "ASDASD"
+    function delay(delayTime, cb) {
+        timer.interval = delayTime;
+        timer.repeat = false;
+        timer.triggered.connect(cb);
+        timer.triggered.connect(function release () {
+            timer.triggered.disconnect(cb);
+            timer.triggered.disconnect(release);
+        });
+        timer.start();
     }
 
 
+    function createBeam(pos: qint16,xscale: qint16 ) : string {
+
+        delay(70, function(){
+        var component = Qt.createComponent("electronbeam.qml")
+        var beam = component.createObject(microscopy, {pos:pos,xscale:xscale})
+        pos -=1
+        console.log(pos);
+
+        if(pos >= -146)
+          controller.startAnimation()
+
+        return
+        })
 
 
+
+
+}
     // free space in microscopy ranges between -145 and 150
     function createLense() {
         var component = Qt.createComponent("lense.qml")
