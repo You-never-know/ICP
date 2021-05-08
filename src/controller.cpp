@@ -236,12 +236,14 @@ void Controller::startAnimation() {
 
     if (micro->GetLense(micro->GetNearestType(beam.getPosition())).getPosition() == beam.getPosition())
       beam.setScale(0.5);
+
     QString returnedValue;
     QMetaObject::invokeMethod(engine->rootObjects().first(), "createBeam",
     Q_RETURN_ARG(QString, returnedValue),
     Q_ARG(QVariant,beam.getPosition()),Q_ARG(QVariant,beam.getScale()));
     beam.decPosition();
-    beam.decScale();
+    if(beam.getScale()>=0.03)
+      beam.decScale();
 
 
 }

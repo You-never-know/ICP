@@ -9,7 +9,7 @@ class ElectronBeam
 public:
     ElectronBeam(int,float);
     void decPosition() { (*position)--; }
-    void decScale() { (*xscale)-=0.01; }
+    void decScale() { (*xscale)-=0.005; }
     int getPosition() { return *position; }
     float getScale() {  return *xscale; }
     void setScale(float newScale) { *xscale = newScale ;}
