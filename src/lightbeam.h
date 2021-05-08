@@ -5,14 +5,14 @@
 class ElectronBeam
 {
   std::unique_ptr<int> position;
-  std::unique_ptr<float> xscale;
+  std::unique_ptr<double> xscale;
 public:
-    ElectronBeam(int,float);
+    ElectronBeam(int,double);
     void decPosition() { (*position)--; }
     void decScale() { (*xscale)-=0.005; }
     int getPosition() { return *position; }
-    float getScale() {  return *xscale; }
-    void setScale(float newScale) { *xscale = newScale ;}
+    double getScale() {  return *xscale; }
+    void setScale(double newScale) { *xscale = newScale ;}
 };
 
 #endif // LIGHTBEAM_H
