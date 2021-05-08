@@ -5,20 +5,22 @@ import QtQuick3D.Effects 1.15
 import QtQuick3D.Helpers 1.15
 
 Node {
-        property var position: 0;
-        property var id: lense1
+        property var pos: 0
+        property var xscale: 0
 
-        x: 0
-        y: position
-        opacity: 0.453
-        z: 0
-        id: id
+        visible : true
+        id: beamId
+
             Model {
+                x: 0
+                y: beamId.pos
+                z: 0
+                opacity : 0.2
                 id: cylinder
                 source: "#Cylinder"
-                scale.y: 0.02
-                scale.z: 0.5
-                scale.x: 0.5
+                scale.y: 0.01
+                scale.z: beamId.xscale
+                scale.x: beamId.xscale
                 eulerRotation.y: 30
                 materials: PrincipledMaterial {
                     baseColor: "red"

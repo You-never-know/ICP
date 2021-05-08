@@ -12,18 +12,19 @@ int main(int argc, char *argv[])
 #endif
 
     QGuiApplication app(argc, argv);
-    QScopedPointer<Controller> controller(new Controller);
+    QQmlApplicationEngine engine;
+    QScopedPointer<Controller> controller(new Controller(&engine));
     QScopedPointer<Microscopy> microscop(new Microscopy);
 
-    QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     engine.rootContext()->setContextProperty("controller", controller.data());
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-                     &app, [url](QObject *obj, const QUrl &objUrl) {
-        if (!obj && url == objUrl)
-            QCoreApplication::exit(-1);
+                   &app, [url](QObject *obj, const QUrl &objUrl) {
+      if (!obj && url == objUrl)
+          QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
     engine.load(url);
+
 
     return app.exec();
 }

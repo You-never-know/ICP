@@ -4,7 +4,6 @@
 #include <iostream>
 #include <memory>
 #include <string>
-
 #include "lense.h"
 #include "lightbeam.h"
 #include "sample.h"

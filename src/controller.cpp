@@ -1,10 +1,13 @@
 #include "controller.h"
 #include "lense.h"
-#include <QDebug>
 
-Controller::Controller()
+Controller::Controller(QQmlApplicationEngine * engine)
 {
+
+
    micro = std::make_unique<Microscopy>();
+   this->engine = engine;
+
 
 }
 
@@ -188,7 +191,19 @@ void Controller::loadConfiguration(QString fileName) {
 }
 
 void Controller::startAnimation() {
-    ;
+
+  if (beam.getPosition()<= -START_POS)
+      return;
+
+  QString returnedValue;
+  QMetaObject::invokeMethod(engine->rootObjects().first(), "createBeam",
+  Q_RETURN_ARG(QString, returnedValue),
+  Q_ARG(QVariant,beam.getPosition()),Q_ARG(QVariant,beam.getXscale()));
+  beam.decPosition();
+  qDebug() << beam.getPosition();
+  beam.decXscale();
+
+
 }
 
 void Controller::restartAnimation() {
@@ -198,4 +213,3 @@ void Controller::restartAnimation() {
 void Controller::clearAnimation() {
     ;
 }
-
