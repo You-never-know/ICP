@@ -48,7 +48,6 @@ Controller::modifyLense(int type, QString position, QString vergency, QString de
     }
 
     lenseVergency = vergency.toDouble(&flag);
-    std::cout << vergency.toLocal8Bit().data() << "  " << lenseVergency << std::endl;
     if (!flag){
         lenseVergency = 0.0;
     }
