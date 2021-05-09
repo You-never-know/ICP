@@ -218,6 +218,7 @@ void Controller::changeSampleRotation(int rotation) {
 
 bool Controller::saveConfiguration(QString fileName) {
     using namespace std;
+    cout << "start save" << endl;
     if (micro == nullptr) {
         return false;
     }
@@ -230,10 +231,12 @@ bool Controller::saveConfiguration(QString fileName) {
     }
     std::unordered_map<enum LenseType, std::unique_ptr < Lense>>
     *lenses = micro->GetAllLenses();
+    cout << "start save2" << endl;
     if (lenses == nullptr) {
         return false;
     }
     Sample *sample = micro->GetSample();
+    cout << "start save3" << endl;
     if (sample == nullptr) {
         return false;
     }
