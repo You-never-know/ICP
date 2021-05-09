@@ -234,16 +234,28 @@ void Controller::startAnimation() {
     if (beam.getPosition()<= -START_POS)
         return;
 
-    if (micro->GetLense(micro->GetNearestType(beam.getPosition())).getPosition() == beam.getPosition())
-      beam.setScale(0.5);
+    if (micro->GetLense(micro->GetNearestType(beam.getPosition())).getPosition() == beam.getPosition()){
 
+        beam.setVergency(-1*micro->GetLense(micro->GetNearestType(beam.getPosition())).getVergency()/2000);
+
+        if(beam.getScale() <= 0.03)
+          beam.incScale(micro->GetLense(micro->GetNearestType(beam.getPosition())).getVergency()/2000);
+
+        if(beam.getScale() >= 0.5)
+          beam.decScale(micro->GetLense(micro->GetNearestType(beam.getPosition())).getVergency()/2000);
+    }
+
+    qDebug() << beam.getScale() << beam.getVergency() << micro->GetLense(micro->GetNearestType(beam.getPosition())).getVergency();
     QString returnedValue;
     QMetaObject::invokeMethod(engine->rootObjects().first(), "createBeam",
     Q_RETURN_ARG(QString, returnedValue),
     Q_ARG(QVariant,beam.getPosition()),Q_ARG(QVariant,beam.getScale()));
     beam.decPosition();
-    if(beam.getScale()>=0.03)
-      beam.decScale();
+
+
+
+    if(beam.getScale() >= 0.03 && beam.getScale() <= 0.5 )
+      beam.decScale(beam.getVergency());
 
 
 }

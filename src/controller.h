@@ -21,10 +21,10 @@
 class Controller : public QObject
 {
      Q_OBJECT
-     
+
      std::unique_ptr<Microscopy> micro;
      QQmlApplicationEngine * engine;
-     ElectronBeam beam = ElectronBeam(START_POS,DEFAULT_SCALE);
+     ElectronBeam beam = ElectronBeam(START_POS,DEFAULT_SCALE,0.005,0,0);
 
 public:
     Q_INVOKABLE explicit Controller(QQmlApplicationEngine * engine);
