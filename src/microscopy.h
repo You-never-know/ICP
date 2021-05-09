@@ -25,9 +25,9 @@ public:
 
     Lense GetLense(enum LenseType key);
 
-    std::unordered_map<enum LenseType, std::unique_ptr < Lense>>*
+    std::unordered_map<enum LenseType, std::unique_ptr < Lense>>* GetAllLenses();
 
-    GetAllLenses();
+    void deleteAllLenses() { lenses.clear();}
 
     Sample *GetSample();
 

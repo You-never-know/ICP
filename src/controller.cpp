@@ -48,16 +48,17 @@ Controller::modifyLense(int type, QString position, QString vergency, QString de
     }
 
     lenseVergency = vergency.toDouble(&flag);
+    std::cout << vergency.toLocal8Bit().data() << "  " << lenseVergency << std::endl;
     if (!flag){
-        lenseVergency = 0;
+        lenseVergency = 0.0;
     }
     lenseXAxisDeflection = deflectionXAxis.toDouble(&flag);
     if (!flag) {
-        lenseXAxisDeflection = 0;
+        lenseXAxisDeflection = 0.0;
     }
     lenseZAxisDeflection = deflectionZAxis.toDouble(&flag);
     if (!flag) {
-        lenseZAxisDeflection = 0;
+        lenseZAxisDeflection = 0.0;
     }
 
     // create or modify existing lense
@@ -235,18 +236,18 @@ bool Controller::saveConfiguration(QString fileName) {
     if (sample == nullptr) {
         return false;
     }
-    outputFile << "S; " << sample->getPosition() << "; " << sample->getRotation() << endl;
+    outputFile << "S; " << sample->getPosition() << "; " << sample->getRotation() << ";" << endl;
     for (auto const&[key, value]: *lenses) {
-        outputFile << "L; " << value->getType() << "; " << value->getPosition() << "; " << value->getVergency() << "; "
-                   << value->getDeflectionXAxis() << "; " << value->getDeflectionZAxis() << endl;
+        outputFile << "L; " << value->getPosition() << "; " << value->getVergency() << "; "
+                   << value->getDeflectionXAxis() << "; " << value->getDeflectionZAxis() << ";" << endl;
     }
     return true;
 }
 
 
 void Controller::createLoadedObject(std::string decider, std::vector <std::string> parameters) {
-    size_t sampleParameterCount = 2;
-    size_t lenseParameterCount = 2;
+    size_t sampleParameterCount = 1;
+    size_t lenseParameterCount = 4;
     if (decider == "S") { // create sample
         if (parameters.size() != sampleParameterCount) {
             return;
@@ -254,11 +255,11 @@ void Controller::createLoadedObject(std::string decider, std::vector <std::strin
         int samplePosition;
         int sampleRotation;
         try {
-            samplePosition = stoi(parameters.at(0));
-            sampleRotation = stoi(parameters.at(1));
-        } catch (std::invalid_argument) {
+            samplePosition = std::stoi(parameters.at(0));
+            sampleRotation = std::stoi(parameters.at(1));
+        } catch (const std::invalid_argument& ia) {
             return;
-        } catch (std::out_of_range) {
+        } catch (const std::out_of_range& r) {
             return;
         }
         if (samplePosition <= getBottomPosition() or samplePosition >= getTopPosition()) {
@@ -266,11 +267,35 @@ void Controller::createLoadedObject(std::string decider, std::vector <std::strin
         }
         changeSamplePosition(samplePosition);
         changeSampleRotation(sampleRotation);
+        QMetaObject::invokeMethod(engine->rootObjects().first(), "showLoadedSample",
+                                  Q_ARG(QVariant, samplePosition), Q_ARG(QVariant, sampleRotation));
     } else if (decider == "L") { // create lense
         if (parameters.size() != lenseParameterCount) {
             return;
         }
-        // TODO convert parameters to double and create Lense, clear the old ones
+        int lensePosition;
+        double lenseVergency;
+        double lenseXDeflection;
+        double lenseZDeflection;
+        try {
+            lensePosition = std::stoi(parameters.at(0));
+            lenseVergency = std::stod(parameters.at(1));
+            lenseXDeflection = std::stod(parameters.at(2));
+            lenseZDeflection = std::stod(parameters.at(3));
+            QString lenseType;
+            QMetaObject::invokeMethod(engine->rootObjects().first(), "createLense", Q_RETURN_ARG(QString, lenseType),
+                                      Q_ARG(QVariant, lensePosition), Q_ARG(QVariant, lenseVergency), Q_ARG(QVariant, lenseXDeflection), Q_ARG(QVariant, lenseZDeflection), Q_ARG(QVariant, false));
+            bool flag;
+            int intLenseType = lenseType.toInt(&flag);
+            if (flag) {
+                Lense newLense = Lense{getLenseType(intLenseType), lensePosition, lenseVergency, lenseXDeflection, lenseZDeflection};
+                micro->LenseInsert(getLenseType(intLenseType), newLense);
+            } else {
+                return;
+            }
+        } catch (const std::invalid_argument& ia) {
+            return;
+        }
     }
 }
 
@@ -288,14 +313,16 @@ bool Controller::loadConfiguration(QString fileName) {
         return false;
     }
     QMetaObject::invokeMethod(engine->rootObjects().first(), "clearMicroscopyToDefault");
+    micro->deleteAllLenses();
     string line;
     string subString;
     string delimeter = ";";
-    auto end = line.find(delimeter);
     auto start = 0U;
     string decider;
     vector <string> parameters;
-    while (getline(inputFile, line)) {
+    while (!inputFile.eof()) {
+        getline(inputFile, line);
+        auto end = line.find(delimeter);
         if (end == string::npos) { continue; }
         decider = line.substr(start, end - start);
         start = end + delimeter.length();
@@ -306,8 +333,9 @@ bool Controller::loadConfiguration(QString fileName) {
             start = end + delimeter.length();
             end = line.find(delimeter, start);
         }
-
+        createLoadedObject(decider, parameters);
         start = 0U;
+        parameters.clear();
     }
     return true;
 }

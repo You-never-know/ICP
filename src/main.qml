@@ -61,7 +61,7 @@ Window {
     }
 
 
-    function createLense(position, vergency, deflectionX, deflectionZ, GUI) {
+    function createLense(position, vergency, deflectionX, deflectionZ, GUI): string {
         var lenseType
         var component = Qt.createComponent("lense.qml")
         if (condenserLense == null) {
@@ -70,7 +70,7 @@ Window {
                 position = controller.modifyLense(lenseType, position, vergency, deflectionX, deflectionZ, true)
                 if (position === -1) {
                     logOutput.text = "Incorrect position given"
-                    return
+                    return -1
                 }
             }
             condenserLense = component.createObject(microscopy, {position:position, lenseType: lenseType})
@@ -80,7 +80,7 @@ Window {
                 position = controller.modifyLense(lenseType, position, vergency, deflectionX, deflectionZ, true)
                 if (position === -1) {
                     logOutput.text = "Incorrect position given"
-                    return
+                    return -1
                 }
             }
             objectiveLense = component.createObject(microscopy, {position:position, lenseType: lenseType})
@@ -90,7 +90,7 @@ Window {
                 position = controller.modifyLense(lenseType, position, vergency, deflectionX, deflectionZ, true)
                 if (position === -1) {
                     logOutput.text = "Incorrect position given"
-                    return
+                    return -1
                 }
              }
              intermediateLense = component.createObject(microscopy, {position:position, lenseType: lenseType})
@@ -100,23 +100,24 @@ Window {
                 position = controller.modifyLense(lenseType, position, vergency, deflectionX, deflectionZ, true)
                 if (position === -1) {
                     logOutput.text = "Incorrect position given"
-                    return
+                    return -1
                 }
               }
               projectorLense = component.createObject(microscopy, {position:position, lenseType: lenseType})
           } else {
               logOutput.text = "All 4 lenses already placed"
-              return
+              return -1
           }
+          return lenseType
     }
 
 
     // free space in microscopy ranges between -145 and 150
     function createLenseFromGUI() {
         var position = addLensePosition.getText(0, addLensePosition.length)
-        var vergency = addLenseVergency.getText(0, addLensePosition.length)
-        var deflectionX = addLenseXDeflection.getText(0, addLensePosition.length)
-        var deflectionZ = addLenseZDeflection.getText(0, addLensePosition.length)
+        var vergency = addLenseVergency.getText(0, addLenseVergency.length)
+        var deflectionX = addLenseXDeflection.getText(0, addLenseXDeflection.length)
+        var deflectionZ = addLenseZDeflection.getText(0, addLenseZDeflection.length)
         logOutput.text = "..."
         clearSelectedLenseGUI()
         createLense(position,vergency,deflectionX,deflectionZ, true)
@@ -218,6 +219,12 @@ Window {
         } else {
             logOutput.text = "Configuration successfuly loaded"
         }
+    }
+
+
+    function showLoadedSample(position: qint32, rotation: qint32) {
+        samplePosition = position
+        sampleRotationY = rotation
     }
 
 
