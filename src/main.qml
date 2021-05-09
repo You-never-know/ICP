@@ -51,12 +51,12 @@ Window {
 
         var component = Qt.createComponent("electronbeam.qml")
         var beam = component.createObject(microscopy, {pos:pos,xscale:xscale})
-
         if(pos >= -146)
           controller.startAnimation()
 
-        return
+        controller.catchBeam(beam)
         })
+    
         
 }
     // free space in microscopy ranges between -145 and 150

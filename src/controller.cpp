@@ -45,6 +45,7 @@ int Controller::modifyLense(int type, QString position, QString vergency, QStrin
     }
 
     lenseVergency = vergency.toDouble(&flag);
+    qDebug() << lenseVergency; 
     if (flag == false) {
         lenseVergency = 0;
     }
@@ -260,10 +261,13 @@ void Controller::startAnimation() {
 
 }
 
-void Controller::restartAnimation() {
-    ;
-}
-
 void Controller::clearAnimation() {
     ;
+}
+void Controller::catchBeam(QObject *beam){
+
+  this->beam.insertBeam(beam);
+}
+void Controller::restartAnimation(){
+    this->beam.deleteBeam();
 }

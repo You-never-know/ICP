@@ -1,5 +1,6 @@
 #include "lightbeam.h"
 
+
 ElectronBeam::ElectronBeam(int pos, double newScale,double verg ,double deflectionX ,double deflectionZ)
 {
   position = std::make_unique<int>(pos);
@@ -9,3 +10,15 @@ ElectronBeam::ElectronBeam(int pos, double newScale,double verg ,double deflecti
   deflectionZAxis = std::make_unique<double>(deflectionZ);
 
 }
+
+void ElectronBeam::deleteBeam(){
+	
+	for (QObject* obj : beamObj){
+		if(obj != nullptr){
+			delete obj;
+			beamObj.pop_back();
+		}
+	}
+
+}
+	

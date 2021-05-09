@@ -26,6 +26,7 @@ class Controller : public QObject
      QQmlApplicationEngine * engine;
      ElectronBeam beam = ElectronBeam(START_POS,DEFAULT_SCALE,0.005,0,0);
 
+
 public:
     Q_INVOKABLE explicit Controller(QQmlApplicationEngine * engine);
     Q_INVOKABLE int modifyLense(int type, QString position, QString vergency, QString deflectionXAxis, QString deflectionZAxis, bool create);
@@ -40,10 +41,11 @@ public:
     Q_INVOKABLE int changeSampleRotation(QString rotation);
     Q_INVOKABLE bool saveConfiguration(QString fileName);
     Q_INVOKABLE bool loadConfiguration(QString fileName);
-
+    Q_INVOKABLE void catchBeam(QObject* beam);
     Q_INVOKABLE void startAnimation();
     Q_INVOKABLE void clearAnimation();
     Q_INVOKABLE void restartAnimation();
+    
 
 };
 
