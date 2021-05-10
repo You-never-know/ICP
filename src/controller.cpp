@@ -42,7 +42,7 @@ Controller::modifyLense(int type, QString position, QString vergency, QString de
             return -1;
         }
     } else {
-        if (!micro->checkPosition(lensePosition)) {
+        if (!micro->checkPosition(lensePosition) && lensePosition != micro->GetLense(lenseType).getPosition()) {
             return -1;
         }
     }
@@ -354,12 +354,10 @@ void Controller::startAnimation() {
         if (beam.getScale() <= 0.03)
             beam.incScale(micro->GetLense(micro->GetNearestType(beam.getPosition())).getVergency() / 2000);
 
-        if (beam.getScale() >= 0.5)
+        if (beam.getScale() >= 0.7)
             beam.decScale(micro->GetLense(micro->GetNearestType(beam.getPosition())).getVergency() / 2000);
     }
 
-    qDebug() << beam.getScale() << beam.getVergency()
-             << micro->GetLense(micro->GetNearestType(beam.getPosition())).getVergency();
     QString returnedValue;
     QMetaObject::invokeMethod(engine->rootObjects().first(), "createBeam",
                               Q_RETURN_ARG(QString, returnedValue),
@@ -367,7 +365,7 @@ void Controller::startAnimation() {
     beam.decPosition();
 
 
-    if (beam.getScale() >= 0.03 && beam.getScale() <= 0.5)
+    if (beam.getScale() >= 0.03 && beam.getScale() <= 0.7)
         beam.decScale(beam.getVergency());
 
 

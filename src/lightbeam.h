@@ -28,11 +28,15 @@ public:
     void setVergency(double ver) { (*vergency) = ver; }
 
     int getPosition() { return *position; }
+    
     void setPosition(int newPos) { *position = newPos; }
 
     double getScale() {  return *scale; }
+    
     void setScale(double newScale) { *scale = newScale ; }
+    
     void insertBeam(QObject* beam) { beamObj.push_back(beam); }
+    
     void deleteBeam();
 
 
