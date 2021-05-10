@@ -206,7 +206,7 @@ Window {
     function saveConfiguration() {
         var path = filePath.getText(0, filePath.length)
         if (controller.saveConfiguration(path) === false) {
-            logOutput.text = "Could not save this configuration to the given file"
+            logOutput.text = "Could not save this configuration"
         } else {
             logOutput.text = "Configuration successfuly saved"
         }
@@ -215,7 +215,7 @@ Window {
     function loadConfiguration() {
         var path = filePath.getText(0, filePath.length)
         if ( controller.loadConfiguration(path) === false) {
-            logOutput.text = "Could not load configuration from the given file"
+            logOutput.text = "Could not load configuration"
         } else {
             logOutput.text = "Configuration successfuly loaded"
         }
@@ -1139,7 +1139,7 @@ Window {
                 height: 38
                 horizontalAlignment: Text.AlignHCenter
                 hoverEnabled: false
-                placeholderText: qsTr("../data/name.in")
+                placeholderText: qsTr("./data/name.in")
             }
         }
 
