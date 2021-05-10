@@ -28,9 +28,14 @@ class Controller : public QObject {
     ElectronBeam beam = ElectronBeam(START_POS, DEFAULT_SCALE, 0.005, 0, 0);
     int topYMicroscopyPosition = 150;
     int bottomYMicroscopyPosition = -145;
+    bool continueAnimation = true;
 
 
 public:
+
+    void setAnimation(bool anim) { continueAnimation = anim ; }
+    bool getAnimation() { return continueAnimation; }
+
     Q_INVOKABLE explicit Controller(QQmlApplicationEngine *engine);
 
     Q_INVOKABLE int
@@ -38,6 +43,8 @@ public:
                 bool create);
 
     Q_INVOKABLE bool checkLense(int, enum LenseType);
+
+    Q_INVOKABLE void prepAnimation();
 
     Q_INVOKABLE int getLensePosition(int lenseType);
 
@@ -70,9 +77,8 @@ public:
     Q_INVOKABLE bool saveConfiguration(QString fileName);
 
     Q_INVOKABLE bool loadConfiguration(QString fileName);
-    
-    Q_INVOKABLE void catchBeam(QObject* beam);
 
+    Q_INVOKABLE void catchBeam(QObject* beam);
 
     void createLoadedObject(std::string decider, std::vector <std::string> parameters);
 

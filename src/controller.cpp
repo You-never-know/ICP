@@ -343,7 +343,8 @@ bool Controller::loadConfiguration(QString fileName) {
 
 void Controller::startAnimation() {
 
-    if (beam.getPosition() <= -START_POS)
+
+    if (beam.getPosition() <= -START_POS || !continueAnimation)
         return;
 
     if (micro->GetLense(micro->GetNearestType(beam.getPosition())).getPosition() == beam.getPosition()) {
@@ -371,9 +372,16 @@ void Controller::startAnimation() {
 
 
 }
+void Controller::prepAnimation(){
+    continueAnimation = true;
+    startAnimation();
 
+}
 void Controller::clearAnimation() {
-    ;
+
+    this->beam.deleteBeam();
+    continueAnimation = false;
+    beam = ElectronBeam(START_POS, DEFAULT_SCALE, 0.005, 0, 0);
 }
 void Controller::catchBeam(QObject *beam){
 
@@ -381,4 +389,5 @@ void Controller::catchBeam(QObject *beam){
 }
 void Controller::restartAnimation(){
     this->beam.deleteBeam();
+    beam = ElectronBeam(START_POS, DEFAULT_SCALE, 0.005, 0, 0);
 }

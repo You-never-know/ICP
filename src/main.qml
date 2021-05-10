@@ -559,7 +559,7 @@ Window {
                 text: qsTr("Start")
                 anchors.right: parent.right
                 anchors.rightMargin: 223
-                onClicked: controller.startAnimation()
+                onClicked: controller.prepAnimation()
             }
 
             Button {
