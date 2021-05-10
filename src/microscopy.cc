@@ -5,97 +5,92 @@
 #include <tuple>
 #include <QDebug>
 
-Microscopy::Microscopy()
-{
-  Sample newSample;
-  sample = std::make_unique<Sample>(newSample);
+Microscopy::Microscopy() {
+    Sample newSample;
+    sample = std::make_unique<Sample>(newSample);
 }
 
 
-void Microscopy::LenseInsert(enum LenseType type,Lense newLense)
-{
-  if (!lenses.count(type)){ // insert only if lense doesn't exist
+void Microscopy::LenseInsert(enum LenseType type, Lense newLense) {
+    if (!lenses.count(type)) { // insert only if lense doesn't exist
 
-    lenses.insert(std::make_pair(type,std::move(std::make_unique<Lense>(newLense))));
-  }
+        lenses.insert(std::make_pair(type, std::move(std::make_unique<Lense>(newLense))));
+    }
 }
 
 
-Sample* Microscopy::GetSample() {
+Sample *Microscopy::GetSample() {
     return sample.get();
 }
 
 
-void Microscopy::SampleInsert(Sample newSample)
-{
-  if (!sample){ // only one sample can exist
-    sample = std::make_unique<Sample>(newSample);
-  }
+void Microscopy::SampleInsert(Sample newSample) {
+    if (!sample) { // only one sample can exist
+        sample = std::make_unique<Sample>(newSample);
+    }
 }
 
 
-Lense Microscopy::GetLense(enum LenseType key)
-{
-  auto newPair = lenses.find(key);
+Lense Microscopy::GetLense(enum LenseType key) {
+    auto newPair = lenses.find(key);
 
-  if(newPair != lenses.end()){
-    return *newPair->second;
-  }
-  else{
-    Lense err;
-    return err;
-  }
+    if (newPair != lenses.end()) {
+        return *newPair->second;
+    } else {
+        Lense err;
+        return err;
+    }
 
 }
 
-enum LenseType  Microscopy::GetNearestType(int pos)
-{
-  Lense tmp;
-  enum LenseType nearest = Error;
-  int oldPos=9999;
+enum LenseType Microscopy::GetNearestType(int pos) {
+    Lense tmp;
+    enum LenseType nearest = Error;
+    int oldPos = 9999;
 
-  for(auto it = lenses.begin() ; it != lenses.end() ; it++ ){
-      tmp = this->GetLense(it->first);
-      if (tmp.getPosition() - pos <= oldPos){
+    for (auto it = lenses.begin(); it != lenses.end(); it++) {
+        tmp = this->GetLense(it->first);
+        if (tmp.getPosition() - pos <= oldPos) {
 
-        nearest = tmp.getType();
-        oldPos = pos - tmp.getPosition();
-      }
+            nearest = tmp.getType();
+            oldPos = pos - tmp.getPosition();
+        }
 
 
-  }
+    }
 
-  return nearest;
+    return nearest;
 }
 
-std::unordered_map<enum LenseType,std::unique_ptr<Lense>>* Microscopy::GetAllLenses() {
+std::unordered_map<enum LenseType, std::unique_ptr < Lense>>*
+
+Microscopy::GetAllLenses() {
     return &lenses;
 }
 
 
-void Microscopy::DeleteLense(enum LenseType key)
-{
-  auto newPair = lenses.find(key);
-  if(newPair != lenses.end()){
-    lenses.erase(key);
-  }
+void Microscopy::DeleteLense(enum LenseType key) {
+    auto newPair = lenses.find(key);
+    if (newPair != lenses.end()) {
+        lenses.erase(key);
+    }
 
 }
 
 
-bool Microscopy::checkPosition(int pos){
+bool Microscopy::checkPosition(int pos) {
 
-  for(auto it = lenses.begin() ; it != lenses.end() ; it++ ){
-      Lense tmp = this->GetLense(it->first);
-      if (tmp.getPosition() == pos){
-        return false;
-      }
-  }
-  if (sample.get() != nullptr) {
-      if (sample.get()->getPosition() == pos) {
-          return false;
-      }
-  }
-  return true ;
+    for (auto it = lenses.begin(); it != lenses.end(); it++) {
+        Lense tmp = this->GetLense(it->first);
+        if (tmp.getPosition() == pos) {
+            return false;
+        }
+    }
+    if (sample.get() != nullptr) {
+        if (sample.get()->getPosition() == pos) {
+            return false;
+        }
+    }
+    return true;
 
 }

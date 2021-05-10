@@ -2,20 +2,23 @@
 #include "lense.h"
 #include <iostream>
 #include <fstream>
+#include <string>
 #include <ios>
 
-Controller::Controller(QQmlApplicationEngine * engine)
-{
+
+Controller::Controller(QQmlApplicationEngine *engine) {
 
 
-   micro = std::make_unique<Microscopy>();
-   this->engine = engine;
+    micro = std::make_unique<Microscopy>();
+    this->engine = engine;
 
 
 }
 
 
-int Controller::modifyLense(int type, QString position, QString vergency, QString deflectionXAxis, QString deflectionZAxis, bool create) {
+int
+Controller::modifyLense(int type, QString position, QString vergency, QString deflectionXAxis, QString deflectionZAxis,
+                        bool create) {
     if (micro == nullptr) {
         return -1;
     }
@@ -31,12 +34,12 @@ int Controller::modifyLense(int type, QString position, QString vergency, QStrin
 
     lensePosition = position.toInt(&flag);
     // indicate error while conversion
-    if (flag == false) {
+    if (!flag) {
         return -1;
     }
     if (create == true) {
-        if (!checkLense(lensePosition,lenseType)){
-          return -1;
+        if (!checkLense(lensePosition, lenseType)) {
+            return -1;
         }
     } else {
         if (!micro->checkPosition(lensePosition)) {
@@ -45,23 +48,24 @@ int Controller::modifyLense(int type, QString position, QString vergency, QStrin
     }
 
     lenseVergency = vergency.toDouble(&flag);
-    qDebug() << lenseVergency; 
-    if (flag == false) {
-        lenseVergency = 0;
+
+    if (!flag){
+        lenseVergency = 0.0;
+
     }
     lenseXAxisDeflection = deflectionXAxis.toDouble(&flag);
-    if (flag == false) {
-        lenseXAxisDeflection = 0;
+    if (!flag) {
+        lenseXAxisDeflection = 0.0;
     }
     lenseZAxisDeflection = deflectionZAxis.toDouble(&flag);
-    if (flag == false) {
-        lenseZAxisDeflection = 0;
+    if (!flag) {
+        lenseZAxisDeflection = 0.0;
     }
 
     // create or modify existing lense
     if (create == true) {
         Lense new_lense = Lense{lenseType, lensePosition, lenseVergency, lenseXAxisDeflection, lenseZAxisDeflection};
-        micro->LenseInsert(lenseType ,new_lense);
+        micro->LenseInsert(lenseType, new_lense);
     } else {
         Lense selectedLense = micro->GetLense(lenseType);
         selectedLense.setPosition(lensePosition);
@@ -69,7 +73,7 @@ int Controller::modifyLense(int type, QString position, QString vergency, QStrin
         selectedLense.setDeflectionXAxis(lenseXAxisDeflection);
         selectedLense.setDeflectionZAxis(lenseZAxisDeflection);
         micro->DeleteLense(lenseType);
-        micro->LenseInsert(lenseType,selectedLense);
+        micro->LenseInsert(lenseType, selectedLense);
     }
 
     return lensePosition;
@@ -85,17 +89,15 @@ void Controller::deleteLense(int type) {
 }
 
 
-
-bool Controller::checkLense(int pos,enum LenseType type )
-{
+bool Controller::checkLense(int pos, enum LenseType type) {
     if (micro == nullptr) {
         return -1;
     }
-    enum LenseType Ltype =  micro->GetLense(type).getType();
+    enum LenseType Ltype = micro->GetLense(type).getType();
 
     if (type == Ltype)
-      return false;
-     // same types are forbidden
+        return false;
+    // same types are forbidden
 
     return micro->checkPosition(pos);
 }
@@ -115,7 +117,6 @@ LenseType Controller::getLenseType(int type) {
             return Error;
     }
 }
-
 
 
 int Controller::getLensePosition(int lenseType) {
@@ -159,20 +160,22 @@ int Controller::changeSamplePosition(QString position) {
     }
     bool flag;
     int newSamplePosition = position.toInt(&flag);
-    Sample * sample = micro->GetSample();
+    Sample *sample = micro->GetSample();
     if (sample == nullptr) {
         return -1;
     }
-    int currectSamplePosition = sample->getPosition();
-    if (flag == false || currectSamplePosition == newSamplePosition) {
-        return currectSamplePosition;
+    int currentSamplePosition = sample->getPosition();
+    if (!flag or currentSamplePosition == newSamplePosition) {
+        return currentSamplePosition;
     }
-    if (!micro->checkPosition(newSamplePosition)) {
+    if (!micro->checkPosition(newSamplePosition) or newSamplePosition <= getBottomPosition() or
+        newSamplePosition >= getTopPosition()) {
         return -1;
     }
     sample->setPosition(newSamplePosition);
     return newSamplePosition;
 }
+
 
 int Controller::changeSampleRotation(QString rotation) {
     if (micro == nullptr) {
@@ -180,12 +183,36 @@ int Controller::changeSampleRotation(QString rotation) {
     }
     bool flag;
     int sampleRotation = rotation.toInt(&flag);
-    Sample * sample = micro->GetSample();
-    if (sample == nullptr || flag == false) {
+    Sample *sample = micro->GetSample();
+    if (sample == nullptr or !flag) {
         return 0;
     }
     sample->setRotation(sampleRotation);
     return sampleRotation;
+}
+
+
+void Controller::changeSamplePosition(int position) {
+    if (micro == nullptr) {
+        return;
+    }
+    if (position <= getBottomPosition() or position >= getTopPosition()) {
+        return;
+    }
+    Sample *sample = micro->GetSample();
+    if (!micro->checkPosition(position)) {
+        return;
+    }
+    sample->setPosition(position);
+}
+
+
+void Controller::changeSampleRotation(int rotation) {
+    if (micro == nullptr) {
+        return;
+    }
+    Sample *sample = micro->GetSample();
+    sample->setRotation(rotation);
 }
 
 
@@ -195,26 +222,84 @@ bool Controller::saveConfiguration(QString fileName) {
         return false;
     }
     QByteArray utfFileName = fileName.toUtf8();
-    const char* finalFileName = utfFileName.data();
+    const char *finalFileName = utfFileName.data();
     ofstream outputFile;
     outputFile.open(finalFileName, ios::out);
     if (!outputFile.is_open()) {
         return false;
     }
-    std::unordered_map<enum LenseType,std::unique_ptr<Lense>>* lenses = micro->GetAllLenses();
+    std::unordered_map<enum LenseType, std::unique_ptr < Lense>>
+    *lenses = micro->GetAllLenses();
     if (lenses == nullptr) {
         return false;
     }
-    Sample * sample = micro->GetSample();
+    Sample *sample = micro->GetSample();
     if (sample == nullptr) {
         return false;
     }
     outputFile << "S; " << sample->getPosition() << "; " << sample->getRotation() << ";" << endl;
-    for (auto const& [key, value]: *lenses) {
-        outputFile << "L; " << value->getType() << "; " << value->getPosition() << "; " << value->getVergency() << "; " << value->getDeflectionXAxis() << "; " << value->getDeflectionZAxis() << ";" << endl;
+    for (auto const&[key, value]: *lenses) {
+        outputFile << "L; " << value->getPosition() << "; " << value->getVergency() << "; "
+                   << value->getDeflectionXAxis() << "; " << value->getDeflectionZAxis() << ";" << endl;
     }
     return true;
 }
+
+
+void Controller::createLoadedObject(std::string decider, std::vector <std::string> parameters) {
+    size_t sampleParameterCount = 1;
+    size_t lenseParameterCount = 4;
+    if (decider == "S") { // create sample
+        if (parameters.size() != sampleParameterCount) {
+            return;
+        }
+        int samplePosition;
+        int sampleRotation;
+        try {
+            samplePosition = std::stoi(parameters.at(0));
+            sampleRotation = std::stoi(parameters.at(1));
+        } catch (const std::invalid_argument& ia) {
+            return;
+        } catch (const std::out_of_range& r) {
+            return;
+        }
+        if (samplePosition <= getBottomPosition() or samplePosition >= getTopPosition()) {
+            return;
+        }
+        changeSamplePosition(samplePosition);
+        changeSampleRotation(sampleRotation);
+        QMetaObject::invokeMethod(engine->rootObjects().first(), "showLoadedSample",
+                                  Q_ARG(QVariant, samplePosition), Q_ARG(QVariant, sampleRotation));
+    } else if (decider == "L") { // create lense
+        if (parameters.size() != lenseParameterCount) {
+            return;
+        }
+        int lensePosition;
+        double lenseVergency;
+        double lenseXDeflection;
+        double lenseZDeflection;
+        try {
+            lensePosition = std::stoi(parameters.at(0));
+            lenseVergency = std::stod(parameters.at(1));
+            lenseXDeflection = std::stod(parameters.at(2));
+            lenseZDeflection = std::stod(parameters.at(3));
+            QString lenseType;
+            QMetaObject::invokeMethod(engine->rootObjects().first(), "createLense", Q_RETURN_ARG(QString, lenseType),
+                                      Q_ARG(QVariant, lensePosition), Q_ARG(QVariant, lenseVergency), Q_ARG(QVariant, lenseXDeflection), Q_ARG(QVariant, lenseZDeflection), Q_ARG(QVariant, false));
+            bool flag;
+            int intLenseType = lenseType.toInt(&flag);
+            if (flag) {
+                Lense newLense = Lense{getLenseType(intLenseType), lensePosition, lenseVergency, lenseXDeflection, lenseZDeflection};
+                micro->LenseInsert(getLenseType(intLenseType), newLense);
+            } else {
+                return;
+            }
+        } catch (const std::invalid_argument& ia) {
+            return;
+        }
+    }
+}
+
 
 bool Controller::loadConfiguration(QString fileName) {
     using namespace std;
@@ -222,41 +307,67 @@ bool Controller::loadConfiguration(QString fileName) {
         return false;
     }
     QByteArray utfFileName = fileName.toUtf8();
-    const char* finalFileName = utfFileName.data();
-    ofstream outputFile;
-    outputFile.open(finalFileName, ios::in);
-    if (!outputFile.is_open()) {
+    const char *finalFileName = utfFileName.data();
+    ifstream inputFile;
+    inputFile.open(finalFileName, ios::in);
+    if (!inputFile.is_open()) {
         return false;
-    } // TBD
+    }
+    QMetaObject::invokeMethod(engine->rootObjects().first(), "clearMicroscopyToDefault");
+    micro->deleteAllLenses();
+    string line;
+    string subString;
+    string delimeter = ";";
+    auto start = 0U;
+    string decider;
+    vector <string> parameters;
+    while (!inputFile.eof()) {
+        getline(inputFile, line);
+        auto end = line.find(delimeter);
+        if (end == string::npos) { continue; }
+        decider = line.substr(start, end - start);
+        start = end + delimeter.length();
+        end = line.find(delimeter, start);
+        while (end != string::npos) {
+            subString = line.substr(start, end - start);
+            parameters.push_back(subString);
+            start = end + delimeter.length();
+            end = line.find(delimeter, start);
+        }
+        createLoadedObject(decider, parameters);
+        start = 0U;
+        parameters.clear();
+    }
+    return true;
 }
 
 void Controller::startAnimation() {
 
-    if (beam.getPosition()<= -START_POS)
+    if (beam.getPosition() <= -START_POS)
         return;
 
-    if (micro->GetLense(micro->GetNearestType(beam.getPosition())).getPosition() == beam.getPosition()){
+    if (micro->GetLense(micro->GetNearestType(beam.getPosition())).getPosition() == beam.getPosition()) {
 
-        beam.setVergency(-1*micro->GetLense(micro->GetNearestType(beam.getPosition())).getVergency()/2000);
+        beam.setVergency(-1 * micro->GetLense(micro->GetNearestType(beam.getPosition())).getVergency() / 2000);
 
-        if(beam.getScale() <= 0.03)
-          beam.incScale(micro->GetLense(micro->GetNearestType(beam.getPosition())).getVergency()/2000);
+        if (beam.getScale() <= 0.03)
+            beam.incScale(micro->GetLense(micro->GetNearestType(beam.getPosition())).getVergency() / 2000);
 
-        if(beam.getScale() >= 0.5)
-          beam.decScale(micro->GetLense(micro->GetNearestType(beam.getPosition())).getVergency()/2000);
+        if (beam.getScale() >= 0.5)
+            beam.decScale(micro->GetLense(micro->GetNearestType(beam.getPosition())).getVergency() / 2000);
     }
 
-    qDebug() << beam.getScale() << beam.getVergency() << micro->GetLense(micro->GetNearestType(beam.getPosition())).getVergency();
+    qDebug() << beam.getScale() << beam.getVergency()
+             << micro->GetLense(micro->GetNearestType(beam.getPosition())).getVergency();
     QString returnedValue;
     QMetaObject::invokeMethod(engine->rootObjects().first(), "createBeam",
-    Q_RETURN_ARG(QString, returnedValue),
-    Q_ARG(QVariant,beam.getPosition()),Q_ARG(QVariant,beam.getScale()));
+                              Q_RETURN_ARG(QString, returnedValue),
+                              Q_ARG(QVariant, beam.getPosition()), Q_ARG(QVariant, beam.getScale()));
     beam.decPosition();
 
 
-
-    if(beam.getScale() >= 0.03 && beam.getScale() <= 0.5 )
-      beam.decScale(beam.getVergency());
+    if (beam.getScale() >= 0.03 && beam.getScale() <= 0.5)
+        beam.decScale(beam.getVergency());
 
 
 }
