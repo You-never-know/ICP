@@ -10,6 +10,7 @@ class Sample {
     std::vector <quint8> samplesData;
     int samplePosition;
     int sampleRotation;
+    bool flip;
 public:
     Sample();
 
@@ -20,6 +21,12 @@ public:
     void setRotation(int rotation);
 
     int getRotation();
+
+    void setFlip(bool flip);
+
+    bool getFlip();
+
+
 };
 
 #endif // Sample_H

@@ -4,6 +4,7 @@
 Sample::Sample() {
     samplePosition = -1;
     sampleRotation = 0;
+    flip = false;
 }
 
 
@@ -14,3 +15,7 @@ void Sample::setPosition(int position) { this->samplePosition = position; }
 int Sample::getRotation() { return sampleRotation; }
 
 void Sample::setRotation(int rotation) { this->sampleRotation = rotation; }
+
+void Sample::setFlip(bool flip) { this->flip = flip; }
+
+bool Sample::getFlip() { return flip; }
