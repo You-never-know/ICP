@@ -8,6 +8,9 @@
 Microscopy::Microscopy() {
     Sample newSample;
     sample = std::make_unique<Sample>(newSample);
+    if (sample != nullptr) {
+        sample->loadData("../data/sample1.in");
+    }
 }
 
 

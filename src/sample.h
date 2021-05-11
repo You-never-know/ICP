@@ -10,6 +10,9 @@ class Sample {
     std::vector <quint8> samplesData;
     int samplePosition;
     int sampleRotation;
+    unsigned int dataHeight;
+    unsigned int dataWidth;
+
 public:
     Sample();
 
@@ -18,6 +21,12 @@ public:
     int getPosition();
 
     void setRotation(int rotation);
+
+    int getDataHeight() {return dataHeight;};
+
+    int getDataWidth() {return dataWidth;};
+
+    bool loadData(std::string filePath);
 
     int getRotation();
 };
