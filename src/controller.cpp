@@ -363,7 +363,7 @@ void Controller::startAnimation() {
             beam.setVergency(-1 *(micro->GetLense(micro->GetNearestType(beam.getPosition())).getVergency()) / 2000);
         else
             beam.setVergency(micro->GetLense(micro->GetNearestType(beam.getPosition())).getVergency() / 2000);
-        
+
         beam.setDeflectionXRat(micro->GetLense(micro->GetNearestType(beam.getPosition())).getDeflectionXAxis() / 25);
         beam.setDeflectionZRat(micro->GetLense(micro->GetNearestType(beam.getPosition())).getDeflectionZAxis() / 25);
 
@@ -373,6 +373,7 @@ void Controller::startAnimation() {
         
     }
 
+   // qDebug() << micro->GetLense(micro->GetNearestType(beam.getPosition())).getVergency();
     QString returnedValue;
     QMetaObject::invokeMethod(engine->rootObjects().first(), "createBeam",
                               Q_RETURN_ARG(QString, returnedValue),
