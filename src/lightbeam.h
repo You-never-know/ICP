@@ -10,12 +10,14 @@ class ElectronBeam {
     std::unique_ptr<double> scale;
     std::unique_ptr<double> vergency;
     std::unique_ptr<double> deflectionXAxis;
+    std::unique_ptr<double> deflectionXRatio;
     std::unique_ptr<double> deflectionZAxis;
+    std::unique_ptr<double> deflectionZRatio;
 
     std::vector<QObject*>beamObj;
 
 public:
-    ElectronBeam(int, double, double, double, double);
+    ElectronBeam(int, double, double, double, double, double ,double );
 
     void decPosition() { (*position)--; }
 
@@ -36,11 +38,26 @@ public:
     void setScale(double newScale) { *scale = newScale ; }
     
     void insertBeam(QObject* beam) { beamObj.push_back(beam); }
+
+    void setDeflectionXRat(double X) { *deflectionXRatio = X; }
+
+    double getDeflectionX() { return *deflectionXAxis;  }
+
+    void insDeflectionX(double X) { (*deflectionXAxis) += X ; }
+
+    double getDeflectionXRat() { return *deflectionXRatio; }
+
+    void setDeflectionZRat(double Z) { *deflectionZRatio = Z; }
+
+    double getDeflectionZRat() { return *deflectionZRatio ;  }
+
+    double getDeflectionZ () { return *deflectionZAxis; }
+
+    void insDeflectionZ(double Z) { (*deflectionZAxis) += Z; }
     
     void deleteBeam();
 
 
-    //double calcScale(){ return vergency/100 }
 };
 
 #endif // LIGHTBEAM_H

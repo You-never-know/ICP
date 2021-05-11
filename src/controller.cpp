@@ -12,7 +12,6 @@ Controller::Controller(QQmlApplicationEngine *engine) {
     micro = std::make_unique<Microscopy>();
     this->engine = engine;
 
-
 }
 
 
@@ -344,14 +343,17 @@ bool Controller::loadConfiguration(QString fileName) {
 void Controller::startAnimation() {
 
 
-    if (beam.getPosition() <= -START_POS || !continueAnimation)
+    if(beam.getPosition() <= -START_POS || !continueAnimation)
         return;
 
-    if (micro->GetLense(micro->GetNearestType(beam.getPosition())).getPosition() == beam.getPosition()) {
+    if (micro->GetLense(micro->GetNearestType(beam.getPosition())).getPosition() == beam.getPosition()) { // if pos matches
 
-        beam.setVergency(-1 * micro->GetLense(micro->GetNearestType(beam.getPosition())).getVergency() / 2000);
+        beam.setVergency(-1* micro->GetLense(micro->GetNearestType(beam.getPosition())).getVergency() / 2000);
 
-        if (beam.getScale() <= 0.03)
+        beam.setDeflectionXRat(micro->GetLense(micro->GetNearestType(beam.getPosition())).getDeflectionXAxis() / 25);
+        beam.setDeflectionZRat(micro->GetLense(micro->GetNearestType(beam.getPosition())).getDeflectionZAxis() / 25);
+
+        if (beam.getScale() <= 0.03) // get movin 
             beam.incScale(micro->GetLense(micro->GetNearestType(beam.getPosition())).getVergency() / 2000);
 
         if (beam.getScale() >= 0.7)
@@ -361,12 +363,16 @@ void Controller::startAnimation() {
     QString returnedValue;
     QMetaObject::invokeMethod(engine->rootObjects().first(), "createBeam",
                               Q_RETURN_ARG(QString, returnedValue),
-                              Q_ARG(QVariant, beam.getPosition()), Q_ARG(QVariant, beam.getScale()));
-    beam.decPosition();
+                              Q_ARG(QVariant, beam.getPosition()), Q_ARG(double, beam.getScale()),Q_ARG(double,beam.getDeflectionX()),Q_ARG(double, beam.getDeflectionZ()));
+    beam.decPosition(); // beam moves no matter what
 
 
-    if (beam.getScale() >= 0.03 && beam.getScale() <= 0.7)
-        beam.decScale(beam.getVergency());
+    if (beam.getScale() >= 0.03 && beam.getScale() <= 0.7){ // controlls vergecny defx and defz
+
+        beam.decScale(beam.getVergency());  
+        beam.insDeflectionX(beam.getDeflectionXRat());
+        beam.insDeflectionZ(beam.getDeflectionZRat());   
+    }
 
 
 }
@@ -375,17 +381,20 @@ void Controller::prepAnimation(){
     startAnimation();
 
 }
+
 void Controller::clearAnimation() {
 
     this->beam.deleteBeam();
-    continueAnimation = false;
-    beam = ElectronBeam(START_POS, DEFAULT_SCALE, 0.005, 0, 0);
-}
-void Controller::catchBeam(QObject *beam){
+    continueAnimation = false; // stops animation
+    beam = ElectronBeam(START_POS, DEFAULT_SCALE, 0.005, 0, 0, 0, 0); // init back to normal
 
-  this->beam.insertBeam(beam);
 }
+
+void Controller::catchBeam(QObject *beam){
+  this->beam.insertBeam(beam); // catches objects from qml
+}
+
 void Controller::restartAnimation(){
     this->beam.deleteBeam();
-    beam = ElectronBeam(START_POS, DEFAULT_SCALE, 0.005, 0, 0);
+    beam = ElectronBeam(START_POS, DEFAULT_SCALE, 0.005, 0, 0, 0, 0);
 }

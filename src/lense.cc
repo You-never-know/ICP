@@ -1,6 +1,7 @@
 #include "lense.h"
 #include "lightbeam.h"
 #include <QDebug>
+#define ERR_VAL -999
 
 Lense::Lense(LenseType type, int position, double vergency, double deflectionXAxis, double deflectionZAxis) {
     this->type = type;
@@ -12,10 +13,10 @@ Lense::Lense(LenseType type, int position, double vergency, double deflectionXAx
 
 Lense::Lense() {
     type = Error;
-    position = -999;
-    vergency = -999;
-    deflectionXAxis = -999;
-    deflectionZAxis = -999;
+    position = ERR_VAL;
+    vergency = ERR_VAL;
+    deflectionXAxis = ERR_VAL;
+    deflectionZAxis = ERR_VAL;
 }
 
 int Lense::getPosition() { return position; }

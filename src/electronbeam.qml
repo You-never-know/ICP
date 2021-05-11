@@ -7,14 +7,16 @@ import QtQuick3D.Helpers 1.15
 Node {
         property var pos: 0
         property var xscale: 0
+        property var xpos: 0
+        property var zpos: 0
 
         visible : true
         id: beamId
 
             Model {
-                x: 0
+                x: beamId.xpos
                 y: beamId.pos
-                z: 0
+                z: beamId.zpos
                 opacity : 0.2
                 id: cylinder
                 source: "#Cylinder"

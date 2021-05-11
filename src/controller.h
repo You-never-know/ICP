@@ -25,7 +25,7 @@ class Controller : public QObject {
             std::unique_ptr<Microscopy>
     micro;
     QQmlApplicationEngine *engine;
-    ElectronBeam beam = ElectronBeam(START_POS, DEFAULT_SCALE, 0.005, 0, 0);
+    ElectronBeam beam = ElectronBeam(START_POS, DEFAULT_SCALE, 0.005, 0, 0, 0, 0);
     int topYMicroscopyPosition = 150;
     int bottomYMicroscopyPosition = -145;
     bool continueAnimation = true;

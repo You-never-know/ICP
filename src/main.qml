@@ -45,12 +45,12 @@ Window {
     }
 
 
-    function createBeam(pos: qint16,xscale: qint16 ) : string {
+    function createBeam(pos: qint16,xscale: double ,xpos: double, zpos: double) : string {
 
         delay(70, function(){
 
         var component = Qt.createComponent("electronbeam.qml")
-        var beam = component.createObject(microscopy, {pos:pos,xscale:xscale})
+        var beam = component.createObject(microscopy, {pos:pos,xscale:xscale,xpos:xpos,zpos:zpos})
         if(pos >= -146)
           controller.startAnimation()
 
