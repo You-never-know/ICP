@@ -9,7 +9,7 @@ CONFIG += c++2a
 SOURCES += \
         controller.cpp \
         lense.cc \
-        lightbeam.cc \
+        electronbeam.cc \
         main.cc \
         microscopy.cc \
         sample.cc
@@ -35,6 +35,6 @@ DISTFILES += \
 HEADERS += \
     controller.h \
     lense.h \
-    lightbeam.h \
+    electronbeam.h \
     microscopy.h \
     sample.h

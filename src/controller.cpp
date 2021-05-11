@@ -1,3 +1,9 @@
+/** @file controller.cpp
+*   @brief source code for class Controller
+*
+*   @author Vladimir Drengubiak (xdreng01)
+*   @author Daniel Marek (xmarek72)
+*/
 #include "controller.h"
 #include "lense.h"
 #include <iostream>
@@ -366,8 +372,16 @@ void Controller::startAnimation() {
                               Q_ARG(QVariant, beam.getPosition()), Q_ARG(double, beam.getScale()),Q_ARG(double,beam.getDeflectionX()),Q_ARG(double, beam.getDeflectionZ()));
     beam.decPosition(); // beam moves no matter what
 
+    if (beam.getScale() < 0){
+        micro->GetSample()->setFlip(true);
+    }
 
-    if (beam.getScale() >= 0.03 && beam.getScale() <= 0.7){ // controlls vergecny defx and defz
+    if (beam.getScale() > 0){
+        micro->GetSample()->setFlip(false);
+    }
+
+
+    if (beam.getScale() <= 0.7 && beam.getScale() >= -0.7){ // controlls vergecny defx and defz
 
         beam.decScale(beam.getVergency());  
         beam.insDeflectionX(beam.getDeflectionXRat());

@@ -16,10 +16,13 @@ class Sample {
     std::vector <quint8> samplesData;
     int samplePosition;
     int sampleRotation;
-    bool flip; 
+<<<<<<< HEAD
     unsigned int dataHeight;
     unsigned int dataWidth;
 
+=======
+    bool flip;
+>>>>>>> 85a8802a08fbe91444c6325c15e71769fe6bae21
 public:
     Sample();
 
@@ -46,12 +49,22 @@ public:
     * 
     */
     void setRotation(int rotation);
+<<<<<<< HEAD
+
+    int getDataHeight() {return dataHeight;};
+
+    int getDataWidth() {return dataWidth;};
+
+    bool loadData(std::string filePath);
+
+=======
     /**
     * Get position of rotation
     * 
     * @return position of rotation
     * 
     */
+>>>>>>> 85a8802a08fbe91444c6325c15e71769fe6bae21
     int getRotation();
     /**
     * 
@@ -69,11 +82,6 @@ public:
     bool getFlip();
 
 
-int getDataHeight() {return dataHeight;};
-
-    int getDataWidth() {return dataWidth;};
-
-    bool loadData(std::string filePath);
 };
 
 #endif // Sample_H

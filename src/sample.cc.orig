@@ -5,7 +5,7 @@
 *   @author Daniel Marek (xmarek72)
 */
 #include "sample.h"
-#include "electronbeam.h"
+<<<<<<< HEAD
 #include "lightbeam.h"
 #include <string>
 #include <iostream>
@@ -14,10 +14,17 @@
 Sample::Sample() {
     samplePosition = -1;
     sampleRotation = 0;   
-    flip = false;
     dataWidth = 0;
     dataHeight = 0;
     samplesData.clear();
+=======
+#include "electronbeam.h"
+
+Sample::Sample() {
+    samplePosition = -1;
+    sampleRotation = 0;
+    flip = false;
+>>>>>>> 85a8802a08fbe91444c6325c15e71769fe6bae21
 }
 
 
@@ -29,6 +36,7 @@ int Sample::getRotation() { return sampleRotation; }
 
 void Sample::setRotation(int rotation) { this->sampleRotation = rotation; }
 
+<<<<<<< HEAD
 bool Sample::loadData(std::string filePath) {
     using namespace std;
     this->samplesData.clear();
@@ -83,7 +91,8 @@ bool Sample::loadData(std::string filePath) {
     }
     return true;
 }
-
+=======
 void Sample::setFlip(bool flip) { this->flip = flip; }
 
 bool Sample::getFlip() { return flip; }
+>>>>>>> 85a8802a08fbe91444c6325c15e71769fe6bae21
