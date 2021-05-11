@@ -52,6 +52,8 @@ public:
 
     void setDeflectionXRat(double X) { deflectionXRatio = X; }
 
+    void refDeflectionXRat() { deflectionXRatio *= -1; }
+
     double getDeflectionX() { return deflectionXAxis;  }
 
     void insDeflectionX(double X) { deflectionXAxis += X ; }
@@ -61,6 +63,8 @@ public:
     void setDeflectionZRat(double Z) { deflectionZRatio = Z; }
 
     double getDeflectionZRat() { return deflectionZRatio ;  }
+
+    void refDeflectionZRat() { deflectionZRatio *= -1; }
 
     double getDeflectionZ () { return deflectionZAxis; }
 
