@@ -12,10 +12,13 @@ build:
 run:
 	./build/Microscopy
 
+pack:
+	make clean
+	zip -r 3-xmarek72-xdreng01.zip *
 
 doxygen:
 	doxygen ./src/Doxyfile
 
 clean:
-	rm -f build/*
+	rm -f -r build/*
 	rm -f -r doc/*

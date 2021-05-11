@@ -1,3 +1,9 @@
+/** @file controller.cpp
+*   @brief source code for class Controller
+*
+*   @author Vladimir Drengubiak (xdreng01)
+*   @author Daniel Marek (xmarek72)
+*/
 #include "electronbeam.h"
 
 

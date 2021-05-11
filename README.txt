@@ -10,6 +10,7 @@ Funkcionalita:
 -Počiatočna konfiguráciu scény je možné načítať zo súboru.
 -Konfigurácia scény sa dá uložiť do súboru.
 -Interaktívne zásahy sú umožnené.
+-Na monitore sa neukazuje obraz
 
 
 	

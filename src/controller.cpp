@@ -430,7 +430,7 @@ void Controller::restartAnimation(){
 void Controller::showResult() {
     Sample * sample = micro->GetSample();
     if (sample == nullptr) {return;}
-    int realPixelWidth = sample->getRightIndex() - sample->getLeftIndex();
+   /* int realPixelWidth = sample->getRightIndex() - sample->getLeftIndex();
     int realPixelHeight = sample->getDownIndex() - sample->getUpIndex();
     double screenScaleX = 1.5;
     double screenScaleZ = 1.5;
@@ -438,7 +438,7 @@ void Controller::showResult() {
     double pixelScaleY = screenScaleZ/realPixelHeight;
     int coll = 0;
     int row = 0;
-   /* for (int i = -realPixelHeight/2; i < realPixelHeight/2; i++, row++) {
+    for (int i = -realPixelHeight/2; i < realPixelHeight/2; i++, row++) {
        for (int j = -realPixelWidth/2; j < realPixelWidth/2; j++, coll++) {
            if (sample->getSampleData(row,coll) == 1) {
             QMetaObject::invokeMethod(engine->rootObjects().first(), "createPixel",
