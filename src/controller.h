@@ -89,11 +89,26 @@ public:
     * @param Lense type
     */
     Q_INVOKABLE int getLensePosition(int lenseType);
-
+    /**
+    * getter for lense vergency
+    * 
+    * @return lense vergency
+    * @param Lense type
+    */
     Q_INVOKABLE double getLenseVergency(int lenseType);
-
+    /**
+    * getter for XAxisDeflection
+    * 
+    * @return XAxisDeflection
+    * @param Lense type
+    */
     Q_INVOKABLE double getLenseXAxisDeflection(int lenseType);
-
+    /**
+    * getter for ZAxisDeflection
+    * 
+    * @return ZAxisDeflection
+    * @param Lense type
+    */
     Q_INVOKABLE double getLenseZAxisDeflection(int lenseType);
 
     /**
@@ -107,15 +122,30 @@ public:
     /**
     * getter for bottom position of microscope
     * 
-    * @return bot of microscope
+    * @return bottom position of microscope
     * 
     */
     int getBottomPosition() { return bottomYMicroscopyPosition; };
-
+    /**
+    * getter for top position of microscope
+    * 
+    * @return top position of microscope
+    * 
+    */
     void setTopPosition(int newTopPosition) { topYMicroscopyPosition = newTopPosition; };
-
+    /**
+    * setter for bottom position of microscope
+    * 
+    * @param lense type
+    * 
+    */
     void setBottomPosition(int newBottomPosition) { bottomYMicroscopyPosition = newBottomPosition; };
-
+    /**
+    * setter for bottom position of microscope
+    * 
+    * @param lense type
+    * @return 
+    */
     LenseType getLenseType(int type);
 
     /**

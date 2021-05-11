@@ -1,4 +1,9 @@
-
+/** @file sample.h
+*   @brief header file for class ElectronBeam
+*
+*   @author Vladimir Drengubiak (xdreng01)
+*   @author Daniel Marek (xmarek72)
+*/
 #ifndef ELECTRONBEAM_H
 #define ELECTRONBEAM_H
 
@@ -37,7 +42,12 @@ public:
     double getScale() {  return scale; }
     
     void setScale(double newScale) { scale = newScale ; }
-    
+    /**
+    * Inserts beam object to vector
+    * 
+    * @param beam object
+    * 
+    */
     void insertBeam(QObject* beam) { beamObj.push_back(beam); }
 
     void setDeflectionXRat(double X) { deflectionXRatio = X; }
@@ -61,4 +71,4 @@ public:
 
 };
 
-#endif // LIGHTBEAM_H
+#endif // ELECTRONBEAM_H
