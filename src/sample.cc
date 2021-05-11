@@ -85,6 +85,6 @@ void Sample::setFlip(bool flip) { this->flip = flip; }
 
 bool Sample::getFlip() { return flip; }
 
-void Sample::sampleScaned(ElectronBeam &beam) {
+void Sample::sampleScaned(double beamScale, double beamXDeflection, double beamZDeflection) {
     ;
 }

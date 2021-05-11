@@ -94,7 +94,7 @@ public:
     * @param path
     *
     */
-    void sampleScaned(double beamVergency, double beamXDeflection, double beamZDeflection);
+    void sampleScaned(double beamScale, double beamXDeflection, double beamZDeflection);
 };
 
 #endif // Sample_H
