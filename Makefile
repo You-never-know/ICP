@@ -13,5 +13,9 @@ run:
 	./build/Microscopy
 
 
+doxygen:
+	doxygen ./src/Doxyfile
+
 clean:
-	rm build/*
+	rm -f build/*
+	rm -f -r doc/*
