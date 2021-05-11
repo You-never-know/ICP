@@ -391,10 +391,10 @@ void Controller::startAnimation() {
         beam.insDeflectionZ(beam.getDeflectionZRat());   
     }
 
-    if(abs(beam.getDeflectionX()) >= 20) // edge of x
+    if(abs(beam.getDeflectionX()) >= 18) // edge of x
         beam.refDeflectionXRat();
 
-    if(abs(beam.getDeflectionZ()) >= 20) // edge of z
+    if(abs(beam.getDeflectionZ()) >= 18) // edge of z
         beam.refDeflectionZRat();
 
 }
