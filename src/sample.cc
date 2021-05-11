@@ -1,3 +1,9 @@
+/** @file sample.cc
+*   @brief source code for class Sample
+*
+*   @author Vladimir Drengubiak (xdreng01)
+*   @author Daniel Marek (xmarek72)
+*/
 #include "sample.h"
 #include "lightbeam.h"
 

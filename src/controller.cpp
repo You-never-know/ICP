@@ -1,3 +1,9 @@
+/** @file controller.cpp
+*   @brief source code for class Controller
+*
+*   @author Vladimir Drengubiak (xdreng01)
+*   @author Daniel Marek (xmarek72)
+*/
 #include "controller.h"
 #include "lense.h"
 #include <iostream>
@@ -374,7 +380,6 @@ void Controller::startAnimation() {
         micro->GetSample()->setFlip(false);
     }
 
-    qDebug() << micro->GetSample()->getFlip();
 
     if (beam.getScale() <= 0.7){ // controlls vergecny defx and defz
 

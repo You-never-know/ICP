@@ -1,3 +1,9 @@
+/** @file microscopy.cc
+*   @brief source code for class Microscopy
+*
+*   @author Vladimir Drengubiak (xdreng01)
+*   @author Daniel Marek (xmarek72)
+*/
 #include "microscopy.h"
 #include "lense.h"
 #include "lightbeam.h"
