@@ -1,5 +1,4 @@
 #include "lense.h"
-#include "lightbeam.h"
 #include <QDebug>
 #define ERR_VAL -999
 

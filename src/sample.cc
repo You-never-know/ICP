@@ -5,7 +5,7 @@
 *   @author Daniel Marek (xmarek72)
 */
 #include "sample.h"
-#include "lightbeam.h"
+#include "electronbeam.h"
 
 Sample::Sample() {
     samplePosition = -1;

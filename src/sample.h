@@ -10,7 +10,7 @@
 #include <QtGlobal>
 #include <vector>
 
-#include "lightbeam.h"
+#include "electronbeam.h"
 
 class Sample {
     std::vector <quint8> samplesData;

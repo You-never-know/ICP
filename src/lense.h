@@ -1,7 +1,7 @@
 #ifndef LENSE_H
 #define LENSE_H
 
-#include "lightbeam.h"
+#include "electronbeam.h"
 
 enum LenseType {
     Condenser, ObjectiveAperture, Intermediate, Projector, Error

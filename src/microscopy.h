@@ -13,7 +13,7 @@
 #include <memory>
 #include <string>
 #include "lense.h"
-#include "lightbeam.h"
+#include "electronbeam.h"
 #include "sample.h"
 
 class Microscopy {
