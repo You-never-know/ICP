@@ -127,7 +127,7 @@ public:
     */
     int getBottomPosition() { return bottomYMicroscopyPosition; };
     /**
-    * getter for top position of microscope
+    * getter for top position opositionf microscope
     * 
     * @return top position of microscope
     * 
@@ -159,15 +159,31 @@ public:
     /**
     * changes sample position if possible
     * 
-    * @param position of sample
+    * @param position of sample from GUI
     * @return new position of sample
     */
     Q_INVOKABLE int changeSamplePosition(QString position);
 
+    /**
+    * changes sample position if possible
+    *
+    * @param position of sample
+    */
     void changeSamplePosition(int position);
 
+    /**
+    * changes sample rotation
+    *
+    * @param rotation of sample
+    */
     void changeSampleRotation(int position);
 
+    /**
+    * changes sample rotation
+    *
+    * @param rotation of sample from GUI
+    * @return new rotation of sample
+    */
     Q_INVOKABLE int changeSampleRotation(QString rotation);
 
     Q_INVOKABLE bool saveConfiguration(QString fileName);

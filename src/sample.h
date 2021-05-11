@@ -30,7 +30,6 @@ public:
     * 
     */
     void setPosition(int position);
-
     /**
     * Gets position of sample
     * 
@@ -67,12 +66,26 @@ public:
     * 
     */
     bool getFlip();
-
-
-int getDataHeight() {return dataHeight;};
-
+    /**
+    *
+    * Get height of the data sample(picture height)
+    * @return the data height
+    *
+    */
+    int getDataHeight() {return dataHeight;};
+    /**
+    *
+    * Get width of the data sample(picture width)
+    * @return the data width
+    *
+    */
     int getDataWidth() {return dataWidth;};
-
+    /**
+    *
+    * Loads data to sample from the given file
+    * @param path to the sample data file
+    *
+    */
     bool loadData(std::string filePath);
 };
 

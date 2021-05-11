@@ -6,7 +6,6 @@
 */
 #include "sample.h"
 #include "electronbeam.h"
-#include "lightbeam.h"
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -69,7 +68,6 @@ bool Sample::loadData(std::string filePath) {
         if (end == string::npos) { continue; }
         while (end != string::npos) {
             subString = line.substr(start, end - start);
-            cout << subString << endl;
             try {
                 data = stoi(subString);
                 this->samplesData.push_back(data);
