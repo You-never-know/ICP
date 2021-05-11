@@ -19,6 +19,10 @@ class Sample {
     bool flip; 
     unsigned int dataHeight;
     unsigned int dataWidth;
+    int scannedLeftIndex;
+    int scannedRightIndex;
+    int scannedUpIndex;
+    int scannedDownIndex;
 
 public:
     Sample();
@@ -94,7 +98,7 @@ public:
     * @param path
     *
     */
-    void sampleScaned(double beamVergency, double beamXDeflection, double beamZDeflection);
+    void sampleScaned(double beamScale, double beamXDeflection, double beamZDeflection);
 };
 
 #endif // Sample_H

@@ -9,6 +9,8 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <cmath>
+
 
 Sample::Sample() {
     samplePosition = -1;
@@ -16,6 +18,10 @@ Sample::Sample() {
     flip = false;
     dataWidth = 0;
     dataHeight = 0;
+    scannedDownIndex = 0;
+    scannedLeftIndex = 0;
+    scannedRightIndex = 0;
+    scannedUpIndex = 0;
     samplesData.clear();
 }
 
@@ -85,6 +91,45 @@ void Sample::setFlip(bool flip) { this->flip = flip; }
 
 bool Sample::getFlip() { return flip; }
 
-void Sample::sampleScaned(ElectronBeam &beam) {
-    ;
+void Sample::sampleScaned(double beamScale, double beamXDeflection, double beamZDeflection) {
+    double sampleScale = 0.5;
+    int moveLeft = 0;
+    int moveRight = 0;
+    int moveUp = 0;
+    int moveDown = 0;
+    if (beamXDeflection < 0) {
+        moveLeft = abs(ceil(beamXDeflection));
+    } else {
+        moveRight = abs(ceil(beamXDeflection));
+    }
+    if (beamZDeflection < 0) {
+        moveUp = abs(ceil(beamZDeflection));
+    } else {
+        moveDown = abs(ceil(beamZDeflection));
+    }
+    if (beamScale != sampleScale) {
+        double beam2SampleRatio = beamScale / sampleScale;
+        int potentialHeight = floor(beam2SampleRatio*this->getDataHeight());
+        int potentialWidth = floor(beam2SampleRatio*this->getDataWidth());
+
+    } else {
+        this->scannedLeftIndex = 0 + moveRight;
+        this->scannedRightIndex = this->getDataWidth() - 1 - moveLeft;
+        this->scannedUpIndex = 0 + moveDown;
+        this->scannedDownIndex = this->getDataHeight() - 1 - moveUp;
+    }
+
+    // final check
+    if (this->scannedLeftIndex < 0) {
+        this->scannedLeftIndex = 0;
+    }
+    if (this->scannedUpIndex < 0) {
+        this->scannedUpIndex = 0;
+    }
+    if (this->scannedRightIndex >= this->getDataWidth()) {
+        this->scannedRightIndex = this->getDataWidth() -1;
+    }
+    if (this->scannedDownIndex >= this->getDataHeight()) {
+        this->scannedRightIndex = this->getDataHeight() -1;
+    }
 }
