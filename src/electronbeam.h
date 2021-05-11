@@ -29,7 +29,7 @@ public:
 
     void decScale(double dec) { scale -= dec; }
 
-    void incScale(double dec) { scale += dec; }
+    void incScale(double inc) { scale += inc; }
 
     double getVergency() { return vergency; }
 
@@ -50,7 +50,7 @@ public:
     */
     void insertBeam(QObject* beam) { beamObj.push_back(beam); }
 
-    void setDeflectionXRat(double X) { deflectionXRatio = X; }
+    void setDeflectionXRat(double newXRat) { deflectionXRatio = newXRat; }
 
     void refDeflectionXRat() { deflectionXRatio *= -1; }
 
@@ -60,7 +60,7 @@ public:
 
     double getDeflectionXRat() { return deflectionXRatio; }
 
-    void setDeflectionZRat(double Z) { deflectionZRatio = Z; }
+    void setDeflectionZRat(double newZRat) { deflectionZRatio = newZRat; }
 
     double getDeflectionZRat() { return deflectionZRatio ;  }
 

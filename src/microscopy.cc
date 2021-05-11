@@ -55,16 +55,15 @@ Lense Microscopy::GetLense(enum LenseType key) {
 enum LenseType Microscopy::GetNearestType(int pos) {
     Lense tmp;
     enum LenseType nearest = Error;
-    int oldPos = 9999;
+    int closestPos = 9999; // inits closest pos for first iteration
 
     for (auto it = lenses.begin(); it != lenses.end(); it++) {
         tmp = this->GetLense(it->first);
-        if (tmp.getPosition() - pos <= oldPos) {
+        if (tmp.getPosition() - pos <= closestPos) {
 
             nearest = tmp.getType();
-            oldPos = pos - tmp.getPosition();
+            closestPos = pos - tmp.getPosition();
         }
-
 
     }
 
