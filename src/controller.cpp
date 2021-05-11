@@ -90,7 +90,7 @@ void Controller::deleteLense(int type) {
 
 bool Controller::checkLense(int pos, enum LenseType type) {
     if (micro == nullptr) {
-        return -1;
+        return false;
     }
     enum LenseType Ltype = micro->GetLense(type).getType();
 
@@ -343,7 +343,7 @@ bool Controller::loadConfiguration(QString fileName) {
 void Controller::startAnimation() {
 
 
-    if(beam.getPosition() <= -START_POS || !continueAnimation)
+    if(beam.getPosition() <= getBottomPosition() || !continueAnimation)
         return;
 
     if (micro->GetLense(micro->GetNearestType(beam.getPosition())).getPosition() == beam.getPosition()) { // if pos matches
@@ -353,7 +353,7 @@ void Controller::startAnimation() {
         beam.setDeflectionXRat(micro->GetLense(micro->GetNearestType(beam.getPosition())).getDeflectionXAxis() / 25);
         beam.setDeflectionZRat(micro->GetLense(micro->GetNearestType(beam.getPosition())).getDeflectionZAxis() / 25);
 
-        if (beam.getScale() <= 0.03) // get movin 
+        if (beam.getScale() <= 0.03) 
             beam.incScale(micro->GetLense(micro->GetNearestType(beam.getPosition())).getVergency() / 2000);
 
         if (beam.getScale() >= 0.7)
@@ -386,7 +386,7 @@ void Controller::clearAnimation() {
 
     this->beam.deleteBeam();
     continueAnimation = false; // stops animation
-    beam = ElectronBeam(START_POS, DEFAULT_SCALE, 0.005, 0, 0, 0, 0); // init back to normal
+    beam = ElectronBeam(topYMicroscopyPosition, default_scale, 0.005, 0, 0, 0, 0); // init back to normal
 
 }
 
@@ -396,5 +396,5 @@ void Controller::catchBeam(QObject *beam){
 
 void Controller::restartAnimation(){
     this->beam.deleteBeam();
-    beam = ElectronBeam(START_POS, DEFAULT_SCALE, 0.005, 0, 0, 0, 0);
+    beam = ElectronBeam(topYMicroscopyPosition, default_scale, 0.005, 0, 0, 0, 0);
 }

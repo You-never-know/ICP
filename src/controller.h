@@ -16,8 +16,6 @@
 #include "lense.h"
 #include <thread>
 
-#define START_POS 149
-#define DEFAULT_SCALE 0.2
 
 class Controller : public QObject {
     Q_OBJECT
@@ -25,27 +23,71 @@ class Controller : public QObject {
             std::unique_ptr<Microscopy>
     micro;
     QQmlApplicationEngine *engine;
-    ElectronBeam beam = ElectronBeam(START_POS, DEFAULT_SCALE, 0.005, 0, 0, 0, 0);
     int topYMicroscopyPosition = 150;
     int bottomYMicroscopyPosition = -145;
+    const double default_scale = 0.2;
     bool continueAnimation = true;
+    
+    ElectronBeam beam = ElectronBeam(topYMicroscopyPosition, default_scale, 0.005, 0, 0, 0, 0);
 
 
 public:
-
+    
+    /**
+    * Animation setter  
+    * 
+    * @param true to run and false to stop
+    * 
+    */
     void setAnimation(bool anim) { continueAnimation = anim ; }
+
+    /**
+    * Animation getter  
+    * 
+    * @return state of animation
+    * 
+    */
     bool getAnimation() { return continueAnimation; }
+
+    /**
+    * Constructor for initializing scene connected to qml 
+    *
+    * @param engine which loads and connects qml file
+    * 
+    */
 
     Q_INVOKABLE explicit Controller(QQmlApplicationEngine *engine);
 
+    /**
+    * Func that modifies or creates lense  
+    * 
+    * @return lense position if it succeed otherwise -1
+    * @param type of lens, position of lense, vergency of lense , deflection of X axis , deflection of Z and flag
+    */
     Q_INVOKABLE int
     modifyLense(int type, QString position, QString vergency, QString deflectionXAxis, QString deflectionZAxis,
                 bool create);
 
+    /**
+    * Checks position and type of lense 
+    * 
+    * @return true if correct type and position is given otherwise false
+    * @param Lense type and position
+    */
     Q_INVOKABLE bool checkLense(int, enum LenseType);
 
+    /**
+    * called by qml to start animation
+    * 
+    */
     Q_INVOKABLE void prepAnimation();
 
+    /**
+    * getter for lense position
+    * 
+    * @return position if lense is found otherwise false
+    * @param Lense type
+    */
     Q_INVOKABLE int getLensePosition(int lenseType);
 
     Q_INVOKABLE double getLenseVergency(int lenseType);
@@ -54,8 +96,20 @@ public:
 
     Q_INVOKABLE double getLenseZAxisDeflection(int lenseType);
 
+    /**
+    * getter for top position of microscope
+    * 
+    * @return top of microscope
+    * 
+    */
     int getTopPosition() { return topYMicroscopyPosition; };
 
+    /**
+    * getter for bottom position of microscope
+    * 
+    * @return bot of microscope
+    * 
+    */
     int getBottomPosition() { return bottomYMicroscopyPosition; };
 
     void setTopPosition(int newTopPosition) { topYMicroscopyPosition = newTopPosition; };
@@ -64,8 +118,20 @@ public:
 
     LenseType getLenseType(int type);
 
+    /**
+    * delete lense by type
+    * 
+    * @param type of lense
+    * 
+    */
     Q_INVOKABLE void deleteLense(int type);
 
+    /**
+    * changes sample position if possible
+    * 
+    * @param position of sample
+    * @return new position of sample
+    */
     Q_INVOKABLE int changeSamplePosition(QString position);
 
     void changeSamplePosition(int position);
@@ -77,7 +143,12 @@ public:
     Q_INVOKABLE bool saveConfiguration(QString fileName);
 
     Q_INVOKABLE bool loadConfiguration(QString fileName);
-
+    /**
+    * catches beam objects from qml
+    * 
+    * @param pointer to qml object
+    * 
+    */
     Q_INVOKABLE void catchBeam(QObject* beam);
 
     void createLoadedObject(std::string decider, std::vector <std::string> parameters);
