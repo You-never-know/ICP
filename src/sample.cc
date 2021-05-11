@@ -92,6 +92,7 @@ void Sample::setFlip(bool flip) { this->flip = flip; }
 bool Sample::getFlip() { return flip; }
 
 void Sample::sampleScaned(double beamScale, double beamXDeflection, double beamZDeflection) {
+    beamScale = abs(beamScale);
     double sampleScale = 0.5;
     int moveLeft = 0;
     int moveRight = 0;
@@ -111,7 +112,12 @@ void Sample::sampleScaned(double beamScale, double beamXDeflection, double beamZ
         double beam2SampleRatio = beamScale / sampleScale;
         int potentialHeight = floor(beam2SampleRatio*this->getDataHeight());
         int potentialWidth = floor(beam2SampleRatio*this->getDataWidth());
-
+        int widthDifference = (potentialWidth - this->getDataWidth())/2;
+        int heightDifference = (potentialHeight - this->getDataHeight())/2;
+        this->scannedLeftIndex = 0 + moveRight - widthDifference;
+        this->scannedRightIndex = this->getDataWidth() - 1 - moveLeft + widthDifference;
+        this->scannedUpIndex = 0 + moveDown - heightDifference;
+        this->scannedDownIndex = this->getDataHeight() - 1 - moveUp + heightDifference;
     } else {
         this->scannedLeftIndex = 0 + moveRight;
         this->scannedRightIndex = this->getDataWidth() - 1 - moveLeft;
@@ -130,6 +136,7 @@ void Sample::sampleScaned(double beamScale, double beamXDeflection, double beamZ
         this->scannedRightIndex = this->getDataWidth() -1;
     }
     if (this->scannedDownIndex >= this->getDataHeight()) {
-        this->scannedRightIndex = this->getDataHeight() -1;
+        this->scannedDownIndex = this->getDataHeight() -1;
     }
+    //std::cout << "Left " << this->scannedLeftIndex << " Right  " << this->scannedRightIndex << " Up " << this->scannedUpIndex << " Down " << this->scannedDownIndex << std::endl;
 }

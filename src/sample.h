@@ -99,6 +99,51 @@ public:
     *
     */
     void sampleScaned(double beamScale, double beamXDeflection, double beamZDeflection);
+    /**
+    *
+    * Get data from the given pixel
+    * @param xPosition of the wanted pixel
+    * @param yPosition of the wanted pixel
+    *
+    */
+    int getSampleData(int xPosition, int yPosition) {
+        if (xPosition >= this->getDataWidth() or yPosition >= this->getDataHeight()) {
+            return -1;
+        }
+        int index = yPosition * this->dataWidth + xPosition;
+        if (index >= this->getDataHeight() * this->getDataWidth() - 1) {
+            return -1;
+        }
+        return this->samplesData.at(index);
+    }
+    /**
+    *
+    * Get upper index of the data
+    * @return the upper index
+    *
+    */
+    int getUpIndex() {return scannedUpIndex;}
+    /**
+    *
+    * Get bottom index of the data
+    * @return the bottom index
+    *
+    */
+    int getDownIndex() {return scannedDownIndex;}
+    /**
+    *
+    * Get left index of the data
+    * @return the left index
+    *
+    */
+    int getLeftIndex() {return scannedLeftIndex;}
+    /**
+    *
+    * Get right index of the data
+    * @return the right index
+    *
+    */
+    int getRightIndex() {return scannedRightIndex;}
 };
 
 #endif // Sample_H
