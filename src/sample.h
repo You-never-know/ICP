@@ -28,14 +28,14 @@ public:
     Sample();
 
     /**
-    * Sets position of sample
+    * @brief Sets position of sample
     * 
     * @param position of sample
     * 
     */
     void setPosition(int position);
     /**
-    * Gets position of sample
+    * @brief Gets position of sample
     * 
     * @return position of sample
     * 
@@ -43,14 +43,14 @@ public:
     int getPosition();
 
     /**
-    * Sets position of rotation
+    * @brief Sets position of rotation
     * 
     * @param position of rotation
     * 
     */
     void setRotation(int rotation);
     /**
-    * Get position of rotation
+    * @brief Get position of rotation
     * 
     * @return position of rotation
     * 
@@ -58,35 +58,35 @@ public:
     int getRotation();
     /**
     * 
-    * Sets flip
+    * @brief Sets flip
     * @param state of flip
     * 
     */
     void setFlip(bool flip);
     /**
     * 
-    * Gets flip
+    * @brief Gets flip
     * @return state of flip
     * 
     */
     bool getFlip();
     /**
     *
-    * Get height of the data sample(picture height)
+    * @brief Get height of the data sample(picture height)
     * @return the data height
     *
     */
     int getDataHeight() {return dataHeight;};
     /**
     *
-    * Get width of the data sample(picture width)
+    * @brief Get width of the data sample(picture width)
     * @return the data width
     *
     */
     int getDataWidth() {return dataWidth;};
     /**
     *
-    * Loads data to sample from the given file
+    * @brief Loads data to sample from the given file
     * @param filePath to the sample data file
     *
     */
@@ -94,14 +94,14 @@ public:
 
     /**
     *
-    * Inform sample that it has been scaned
+    * @brief Inform sample that it has been scaned
     * @param path
     *
     */
     void sampleScaned(double beamScale, double beamXDeflection, double beamZDeflection);
     /**
     *
-    * Get data from the given pixel
+    * @brief Get data from the given pixel
     * @param xPosition of the wanted pixel
     * @param yPosition of the wanted pixel
     *
@@ -118,28 +118,28 @@ public:
     }
     /**
     *
-    * Get upper index of the data
+    * @brief Get upper index of the data
     * @return the upper index
     *
     */
     int getUpIndex() {return scannedUpIndex;}
     /**
     *
-    * Get bottom index of the data
+    * @brief Get bottom index of the data
     * @return the bottom index
     *
     */
     int getDownIndex() {return scannedDownIndex;}
     /**
     *
-    * Get left index of the data
+    * @brief Get left index of the data
     * @return the left index
     *
     */
     int getLeftIndex() {return scannedLeftIndex;}
     /**
     *
-    * Get right index of the data
+    * @brief Get right index of the data
     * @return the right index
     *
     */

@@ -25,7 +25,7 @@ public:
     Lense();
 
     /**
-    * Gets lense's position
+    * @brief Gets lense's position
     * 
     * @return position of lense
     * 
@@ -33,49 +33,49 @@ public:
     int getPosition();
 
     /**
-    * Sets lense's position
+    * @brief Sets lense's position
     * 
     * @param position of lense
     */
     void setPosition(int position);
     /**
-    * Gets lense's vergency
+    * @brief Gets lense's vergency
     * 
     * @return vergency of lense
     */
     double getVergency();
     /**
-    * Sets lense's vergency
+    * @brief Sets lense's vergency
     * 
     * @param vergency of lense
     */
     void setVergency(double vergency);
     /**
-    * Gets lense's DeflectionX
+    * @brief Gets lense's DeflectionX
     * 
     * @return DeflectionX
     */
     double getDeflectionXAxis();
     /**
-    * Sets lense's DeflectionX
+    * @brief Sets lense's DeflectionX
     * 
     * @param DeflectionX of lense
     */
     void setDeflectionXAxis(double deflection);
     /**
-    * Gets lense's DeflectionZ
+    * @brief Gets lense's DeflectionZ
     * 
     * @return DeflectionZ
     */
     double getDeflectionZAxis();
     /**
-    * Sets lense's DeflectionZ
+    * @brief Sets lense's DeflectionZ
     * 
     * @param DeflectionZ of lense
     */
     void setDeflectionZAxis(double deflection);
     /**
-    * Gets lense's type
+    * @brief Gets lense's type
     * 
     * @return type of lense
     */
