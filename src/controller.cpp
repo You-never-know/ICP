@@ -359,8 +359,7 @@ void Controller::startAnimation() {
         micro->GetSample()->sampleScaned(beam.getScale(),beam.getDeflectionX(),beam.getDeflectionZ());
 
     if (micro->GetLense(micro->GetNearestType(beam.getPosition())).getPosition() == beam.getPosition()) { // checks lense pos if equal then apply lenses attributes
-
-        beam.setVergency(-1* micro->GetLense(micro->GetNearestType(beam.getPosition())).getVergency() / 2000); 
+        beam.setVergency( micro->GetLense(micro->GetNearestType(beam.getPosition())).getVergency() / 2000);
 
         beam.setDeflectionXRat(micro->GetLense(micro->GetNearestType(beam.getPosition())).getDeflectionXAxis() / 25);
         beam.setDeflectionZRat(micro->GetLense(micro->GetNearestType(beam.getPosition())).getDeflectionZAxis() / 25);
@@ -370,6 +369,8 @@ void Controller::startAnimation() {
 
         if (beam.getScale() >= 0.7)
             beam.decScale(micro->GetLense(micro->GetNearestType(beam.getPosition())).getVergency() / 2000);
+
+        std::cout << beam.getScale() << std::endl;
     }
 
     QString returnedValue;
@@ -429,5 +430,10 @@ void Controller::showResult() {
     if (sample == nullptr) {return;}
     int realPixelWidth = sample->getRightIndex() - sample->getLeftIndex();
     int realPixelHeight = sample->getDownIndex() - sample->getUpIndex();
+    double screen_scale;
+
+
+    QMetaObject::invokeMethod(engine->rootObjects().first(), "createPixel",
+                              Q_ARG(QVariant, 0), Q_ARG(QVariant, 0), Q_ARG(double, 1.0), Q_ARG(double, 1.0), Q_ARG(QString, "black"));
 
 }

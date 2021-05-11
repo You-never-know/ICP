@@ -3,5 +3,6 @@
         <file>main.qml</file>
         <file>lense.qml</file>
         <file>electronbeam.qml</file>
+        <file>pixel.qml</file>
     </qresource>
 </RCC>

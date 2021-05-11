@@ -173,9 +173,9 @@ Window {
         }
         var component = Qt.createComponent("lense.qml")
         var position = addLensePosition.getText(0, addLensePosition.length)
-        var vergency = addLenseVergency.getText(0, addLensePosition.length)
-        var deflectionX = addLenseXDeflection.getText(0, addLensePosition.length)
-        var deflectionZ = addLenseZDeflection.getText(0, addLensePosition.length)
+        var vergency = addLenseVergency.getText(0, addLenseVergency.length)
+        var deflectionX = addLenseXDeflection.getText(0, addLenseXDeflection.length)
+        var deflectionZ = addLenseZDeflection.getText(0, addLenseZDeflection.length)
         var lenseType = selectedLense.identifier
         position = controller.modifyLense(lenseType, position, vergency, deflectionX, deflectionZ, false)
         if (position === -1) {
@@ -251,6 +251,15 @@ Window {
             projectorLense = null
         }
     }
+
+
+
+    function createPixel(positionY: qint16,positionZ: quint16 ,scaleX: double, scaleZ: double, color: string) {
+         var component = Qt.createComponent("pixel.qml")
+         var pixel = component.createObject(microscopy, {positionY:positionY,positionZ:positionZ,scaleX:scaleX,scaleZ:scaleZ, color:color})
+         controller.catchBeam(pixel)
+    }
+
 
 
 

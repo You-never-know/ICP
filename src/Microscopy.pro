@@ -28,9 +28,11 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
+    Pixel.qml \
     electronbeam.qml \
     lense.qml \
-    main.qml
+    main.qml \
+    pixel.qml
 
 HEADERS += \
     controller.h \

@@ -140,6 +140,7 @@ public:
     * 
     * 
     */
+
     void refDeflectionZRat() { deflectionZRatio *= -1; }
     /**
     * @brief Gets DeflectionZ
