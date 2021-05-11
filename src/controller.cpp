@@ -349,13 +349,11 @@ bool Controller::loadConfiguration(QString fileName) {
 void Controller::startAnimation() {
 
 
-    if(beam.getPosition() <= getBottomPosition()) {
-        this->showResult();
+    if(beam.getPosition() <= getBottomPosition() || !continueAnimation)
         return;
-    }
 
-    if (!continueAnimation)
-        return;
+    if(beam.getPosition() == micro->GetSample()->getPosition())
+        micro->GetSample()->sampleScaned(beam.getScale(),beam.getDeflectionX(),beam.getDeflectionZ());
 
     if (micro->GetLense(micro->GetNearestType(beam.getPosition())).getPosition() == beam.getPosition()) { // if pos matches
 
@@ -416,8 +414,4 @@ void Controller::catchBeam(QObject *beam){
 void Controller::restartAnimation(){
     this->beam.deleteBeam();
     beam = ElectronBeam(topYMicroscopyPosition, default_scale, 0.005, 0, 0, 0, 0);
-}
-
-void Controller::showResult() {
-    ;
 }
