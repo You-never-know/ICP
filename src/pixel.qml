@@ -13,9 +13,9 @@ Node {
 
         id: pixel
         Model {
-                x: 190
-                y: 50+ pixel.positionY
-                z: -100 + pixel.positionZ
+                x: 190  + pixel.positionZ
+                y: 50 + pixel.positionY
+                z: -90
                 source: "#Cube"
                 scale.y: 0.01
                 scale.z: pixel.scaleZ
