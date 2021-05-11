@@ -204,6 +204,8 @@ public:
     Q_INVOKABLE void clearAnimation();
 
     Q_INVOKABLE void restartAnimation();
+
+    void showResult();
     
 
 };

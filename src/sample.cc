@@ -28,13 +28,13 @@ int Sample::getRotation() { return sampleRotation; }
 
 void Sample::setRotation(int rotation) { this->sampleRotation = rotation; }
 
-bool Sample::loadData(std::string filePath) {
+void Sample::loadData(std::string filePath) {
     using namespace std;
     this->samplesData.clear();
     ifstream inputFile;
     inputFile.open(filePath, ios::in);
     if (!inputFile.is_open()) {
-        return false;
+        return;
     }
     string line;
     string subString;
@@ -48,14 +48,14 @@ bool Sample::loadData(std::string filePath) {
     try {
        dataHeight = stoi(line.substr(start, end - start));
     } catch(const std::invalid_argument& ia) {
-        return false;
+        return;
     }
     start = end + delimeter.length();
     end = line.find(delimeter);
     try {
         dataWidth = stoi(line.substr(start, end - start));
     } catch(const std::invalid_argument& ia) {
-        return false;
+        return;
     }
     this->dataHeight = dataHeight;
     this->dataWidth = dataWidth;
@@ -73,15 +73,18 @@ bool Sample::loadData(std::string filePath) {
                 this->samplesData.push_back(data);
             } catch (const std::invalid_argument& ia) {
                 this->samplesData.clear();
-                return false;}
+                return;}
             start = end + delimeter.length();
             end = line.find(delimeter, start);
         }
         start = 0U;
     }
-    return true;
 }
 
 void Sample::setFlip(bool flip) { this->flip = flip; }
 
 bool Sample::getFlip() { return flip; }
+
+void Sample::sampleScaned(ElectronBeam &beam) {
+    ;
+}

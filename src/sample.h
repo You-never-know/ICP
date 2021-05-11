@@ -83,10 +83,18 @@ public:
     /**
     *
     * Loads data to sample from the given file
-    * @param path to the sample data file
+    * @param filePath to the sample data file
     *
     */
-    bool loadData(std::string filePath);
+    void loadData(std::string filePath);
+
+    /**
+    *
+    * Inform sample that it has been scaned
+    * @param path
+    *
+    */
+    void sampleScaned(double beamVergency, double beamXDeflection, double beamZDeflection);
 };
 
 #endif // Sample_H
