@@ -62,7 +62,7 @@ enum LenseType Microscopy::GetNearestType(int pos) {
         if (tmp.getPosition() - pos <= closestPos) {
 
             nearest = tmp.getType();
-            closestPos = pos - tmp.getPosition();
+            closestPos =  pos - tmp.getPosition();
         }
 
     }

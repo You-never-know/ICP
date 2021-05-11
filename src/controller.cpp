@@ -359,17 +359,18 @@ void Controller::startAnimation() {
         micro->GetSample()->sampleScaned(beam.getScale(),beam.getDeflectionX(),beam.getDeflectionZ());
 
     if (micro->GetLense(micro->GetNearestType(beam.getPosition())).getPosition() == beam.getPosition()) { // checks lense pos if equal then apply lenses attributes
-
-        beam.setVergency(-1* micro->GetLense(micro->GetNearestType(beam.getPosition())).getVergency() / 2000); 
-
+        if(beam.getScale()>=0)
+            beam.setVergency(-1 *(micro->GetLense(micro->GetNearestType(beam.getPosition())).getVergency()) / 2000);
+        else
+            beam.setVergency(micro->GetLense(micro->GetNearestType(beam.getPosition())).getVergency() / 2000);
+        
         beam.setDeflectionXRat(micro->GetLense(micro->GetNearestType(beam.getPosition())).getDeflectionXAxis() / 25);
         beam.setDeflectionZRat(micro->GetLense(micro->GetNearestType(beam.getPosition())).getDeflectionZAxis() / 25);
 
-        if (beam.getScale() <= 0.03)
-            beam.incScale(micro->GetLense(micro->GetNearestType(beam.getPosition())).getVergency() / 2000);
-
         if (beam.getScale() >= 0.7)
             beam.decScale(micro->GetLense(micro->GetNearestType(beam.getPosition())).getVergency() / 2000);
+            
+        
     }
 
     QString returnedValue;
@@ -378,7 +379,8 @@ void Controller::startAnimation() {
                               Q_ARG(QVariant, beam.getPosition()), Q_ARG(double, beam.getScale()),Q_ARG(double,beam.getDeflectionX()),Q_ARG(double, beam.getDeflectionZ()));
     beam.decPosition(); // beam moves no matter what
 
-    if (beam.getScale() < 0){
+
+   if (beam.getScale() < 0){
         micro->GetSample()->setFlip(true);
     }
 
@@ -386,12 +388,11 @@ void Controller::startAnimation() {
         micro->GetSample()->setFlip(false);
     }
 
-
     if (abs(beam.getScale()) <= 0.7){ // controlls vergecny defx and defz
 
-        beam.decScale(beam.getVergency());  
+        beam.decScale(beam.getVergency());
         beam.insDeflectionX(beam.getDeflectionXRat());
-        beam.insDeflectionZ(beam.getDeflectionZRat());   
+        beam.insDeflectionZ(beam.getDeflectionZRat());  
     }
 
     if(abs(beam.getDeflectionX()) >= 18) // edge of x
@@ -399,6 +400,7 @@ void Controller::startAnimation() {
 
     if(abs(beam.getDeflectionZ()) >= 18) // edge of z
         beam.refDeflectionZRat();
+
 
 }
 void Controller::prepAnimation(){

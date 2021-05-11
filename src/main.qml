@@ -173,9 +173,9 @@ Window {
         }
         var component = Qt.createComponent("lense.qml")
         var position = addLensePosition.getText(0, addLensePosition.length)
-        var vergency = addLenseVergency.getText(0, addLensePosition.length)
-        var deflectionX = addLenseXDeflection.getText(0, addLensePosition.length)
-        var deflectionZ = addLenseZDeflection.getText(0, addLensePosition.length)
+        var vergency = addLenseVergency.getText(0, addLenseVergency.length)
+        var deflectionX = addLenseXDeflection.getText(0, addLenseXDeflection.length)
+        var deflectionZ = addLenseZDeflection.getText(0, addLenseZDeflection.length)
         var lenseType = selectedLense.identifier
         position = controller.modifyLense(lenseType, position, vergency, deflectionX, deflectionZ, false)
         if (position === -1) {
